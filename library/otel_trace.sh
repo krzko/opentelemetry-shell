@@ -52,12 +52,16 @@ function trace_parent {
 }
 EOF
 )
-	log_info "Curling..."
-	log_info "Parent TraceId: ${UUID_TRACE_ID}"
-	log_info "Parent spanId: ${UUID_PARENT_SPAN_ID:0:16}"
-	# curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces" -o /dev/null -s
-	echo "${JSON}"
-	curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces"
+
+	log_info "Sending SpanId: ${UUID_PARENT_SPAN_ID}"
+	if [[ $OTEL_LOG_LEVEL == "debug" ]]; then
+		log_info "Parent TraceId: ${UUID_TRACE_ID}"
+		log_info "Parent spanId: ${UUID_PARENT_SPAN_ID:0:16}"
+		echo "${JSON}"
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces" 
+	else
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces" -o /dev/null -s
+	fi
 }
 
 
@@ -105,12 +109,16 @@ function trace_child {
 EOF
 )
 
-	log_info "Curling..."
-	log_info "Parent TraceId: ${UUID_TRACE_ID}"
-	log_info "Parent spanId: ${UUID_PARENT_SPAN_ID:0:16}"
-	log_info "Span spanId: ${UUID_SPAN_CHILD_ID:0:16}"
-	echo "${JSON}"
-	# curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces" -o /dev/null -s
-	curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces"
+	log_info "Sending SpanId: ${UUID_SPAN_CHILD_ID}"
+	if [[ $OTEL_LOG_LEVEL == "debug" ]]; then
+		log_info "Parent TraceId: ${UUID_TRACE_ID}"
+		log_info "Parent spanId: ${UUID_PARENT_SPAN_ID:0:16}"
+		log_info "Child spanId: ${UUID_SPAN_CHILD_ID:0:16}"
+		echo "${JSON}"
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces"
+
+	else
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces" -o /dev/null -s
+	fi
 
 }
