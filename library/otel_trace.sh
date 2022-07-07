@@ -8,14 +8,13 @@ export UUID_TRACE_ID
 export UUID_PARENT_SPAN_ID
 
 function trace_parent {
-	local -r NAME="$1"
-	local -r URL="$2"
+	local -r NAME=$1
 
 	UUID_TRACE_ID=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
 	UUID_PARENT_SPAN_ID=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
 
 	local EPOCH_START=$(date +%s)
-	sleep 1
+	"$@"
 	local EPOCH_END=$(date +%s)
 
 	local JSON=$(cat <<EOF
@@ -57,8 +56,9 @@ EOF
 	if [[ $OTEL_LOG_LEVEL == "debug" ]]; then
 		log_info "Parent TraceId: ${UUID_TRACE_ID}"
 		log_info "Parent spanId: ${UUID_PARENT_SPAN_ID:0:16}"
-		echo "${JSON}"
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces" 
+		echo "JSON: ${JSON}"
+		echo "URL: ${URL}"
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces"
 	else
 		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces" -o /dev/null -s
 	fi
@@ -66,12 +66,11 @@ EOF
 
 
 function trace_child {
-	local -r NAME="$1"
-	local -r URL="$2"
+	local -r NAME=${FUNCNAME[0]}
 
 	UUID_SPAN_CHILD_ID=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
 	local EPOCH_CHILD_START=$(date +%s)
-	sleep 1
+	"$@"
 	local EPOCH_CHILD_END=$(date +%s)
 
 	local JSON=$(cat <<EOF
@@ -114,7 +113,8 @@ EOF
 		log_info "Parent TraceId: ${UUID_TRACE_ID}"
 		log_info "Parent spanId: ${UUID_PARENT_SPAN_ID:0:16}"
 		log_info "Child spanId: ${UUID_SPAN_CHILD_ID:0:16}"
-		echo "${JSON}"
+		echo "JSON: ${JSON}"
+		echo "URL: ${URL}"
 		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces"
 
 	else
