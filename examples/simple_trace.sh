@@ -1,16 +1,20 @@
 #!/usr/bin/env bash
 
-URL=$OTEL_EXPORTER_OTEL_ENDPOINT
-
 source ../library/log.sh
 source ../library/otel_trace.sh
 
-function business_logic {
-  echo "Doing some stuff.."
+function curl_httpbin_200 {
+  log_info "curl httpbin 200"
+  curl -X GET "https://httpbin.org/status/200" -H  "accept: text/plain"
 }
 
-trace_parent business_logic
+function curl_httpbin_201 {
+  log_info "curl httpbin - 201"
+  curl -X GET "https://httpbin.org/status/201" -H  "accept: text/plain"
+}
 
-trace_child business_logic
+trace_parent curl_httpbin_200
 
-log_info "TraceId ${UUID_TRACE_ID}"
+trace_child curl_httpbin_201
+
+log_info "TraceId ${TRACE_ID}"

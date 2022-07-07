@@ -3,44 +3,42 @@
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_init.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
 
-# export OTEL_EXPORTER_OTEL_ENDPOINT=""
-export UUID_TRACE_ID
-export UUID_PARENT_SPAN_ID
+export TRACE_ID=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
+export PARENT_SPAN_ID
 
 function trace_parent {
-	local -r NAME="$1"
-
-	UUID_TRACE_ID=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
-	UUID_PARENT_SPAN_ID=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
+	local -r NAME="$1"	
+	local SPAN_ID=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
+	PARENT_SPAN_ID=$SPAN_ID
 
 	local EPOCH_START=$(date +%s)
 	"$@"
 	local EPOCH_END=$(date +%s)
+	local EXIT_CODE=$?
 
 	local JSON=$(cat <<EOF
 {"resourceSpans":[{
 	"resource":{
 		"attributes":[
-			{"key":"service.name","value":{"stringValue":"opentelemtry_trace.sh"}}
+			{"key":"service.name","value":{"stringValue":"$(basename "$0")"}}
 		]
 	},
 	"scopeSpans":[{
 		"scope":{},
 			"spans":[{
-				"traceId":"${UUID_TRACE_ID}",
-				"spanId":"${UUID_PARENT_SPAN_ID:0:16}",
+				"traceId":"${TRACE_ID}",
+				"spanId":"${SPAN_ID:0:16}",
 				"parentSpanId":"",
 				"name":"${NAME}",
 				"kind":"SPAN_KIND_SERVER",
 				"startTimeUnixNano":"${EPOCH_START}000000000",
 				"endTimeUnixNano":"${EPOCH_END}000000000",
 				"attributes":[
-					{"key":"bash.errorlevel","value":{"stringValue":"0"}},
-					{"key":"bash.version","value":{"stringValue":"3.2.57"}},
-                    {"key":"bash.pwd","value":{"stringValue":"/Users/kowalskk/code/github.service.anz/kowalskk/bash-func/examples"}},
-                    {"key":"bash.version","value":{"stringValue":"3.2.57"}},
-                    {"key":"command","value":{"stringValue":"./opentelemtry_trace.sh --foo bar"}},
-                    {"key":"os.version","value":{"stringValue":"Darwin"}}
+					{"key":"bash.errorlevel","value":{"stringValue":"${EXIT_CODE}"}},
+					{"key":"bash.version","value":{"stringValue":"${BASH_VERSION}"}},
+                    {"key":"bash.pwd","value":{"stringValue":"${PWD}"}},
+                    {"key":"command","value":{"stringValue":"$@"}},
+                    {"key":"os.version","value":{"stringValue":"${OS_VERSION}"}}
 				],
 				"status":{
 					"code":"STATUS_CODE_OK"
@@ -52,23 +50,26 @@ function trace_parent {
 EOF
 )
 
-	log_info "Sending SpanId: ${UUID_PARENT_SPAN_ID}"
+	log_info "Sending SpanId: ${PARENT_SPAN_ID}"
 	if [[ $OTEL_LOG_LEVEL == "debug" ]]; then
-		log_info "Parent TraceId: ${UUID_TRACE_ID}"
-		log_info "Parent spanId: ${UUID_PARENT_SPAN_ID:0:16}"
+		log_info "Parent TraceId: ${TRACE_ID}"
+		log_info "Parent spanId: ${PARENT_SPAN_ID:0:16}"
 		echo "JSON: ${JSON}"
-		echo "URL: ${URL}"
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces" 
+		echo "OTEL_EXPORTER_OTEL_ENDPOINT: ${OTEL_EXPORTER_OTEL_ENDPOINT}"
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" 
 	else
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces" -o /dev/null -s
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
 	fi
+
+	
+	return $EXIT_CODE
 }
 
 
 function trace_child {
 	local -r NAME="$1"
 
-	UUID_SPAN_CHILD_ID=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
+	local SPAN_ID=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
 	local EPOCH_CHILD_START=$(date +%s)
 	"$@"
 	local EPOCH_CHILD_END=$(date +%s)
@@ -77,26 +78,25 @@ function trace_child {
 {"resourceSpans":[{
 	"resource":{
 		"attributes":[
-			{"key":"service.name","value":{"stringValue":"opentelemtry_trace.sh"}}
+			{"key":"service.name","value":{"stringValue":"$(basename "$0")"}}
 		]
 	},
 	"scopeSpans":[{
 		"scope":{},
 			"spans":[{
-				"traceId":"${UUID_TRACE_ID}",
-				"spanId":"${UUID_SPAN_CHILD_ID:0:16}",
-				"parentSpanId":"${UUID_PARENT_SPAN_ID:0:16}",
+				"traceId":"${TRACE_ID}",
+				"spanId":"${SPAN_ID:0:16}",
+				"parentSpanId":"${PARENT_SPAN_ID:0:16}",
 				"name":"${NAME}",
 				"kind":"SPAN_KIND_SERVER",
 				"startTimeUnixNano":"${EPOCH_CHILD_START}000000000",
 				"endTimeUnixNano":"${EPOCH_CHILD_END}000000000",
 				"attributes":[
-					{"key":"bash.errorlevel","value":{"stringValue":"0"}},
-					{"key":"bash.version","value":{"stringValue":"3.2.57"}},
-                    {"key":"bash.pwd","value":{"stringValue":"/Users/kowalskk/code/github.service.anz/kowalskk/bash-func/examples"}},
-                    {"key":"bash.version","value":{"stringValue":"3.2.57"}},
-                    {"key":"command","value":{"stringValue":"./opentelemtry_trace.sh --foo bar"}},
-                    {"key":"os.version","value":{"stringValue":"Darwin"}}
+					{"key":"bash.errorlevel","value":{"stringValue":"${EXIT_CODE}"}},
+					{"key":"bash.version","value":{"stringValue":"${BASH_VERSION}"}},
+                    {"key":"bash.pwd","value":{"stringValue":"${PWD}"}},
+                    {"key":"command","value":{"stringValue":"$@"}},
+                    {"key":"os.version","value":{"stringValue":"${OS_VERSION}"}}
 				],
 				"status":{
 					"code":"STATUS_CODE_OK"
@@ -108,17 +108,17 @@ function trace_child {
 EOF
 )
 
-	log_info "Sending SpanId: ${UUID_SPAN_CHILD_ID}"
+	log_info "Sending SpanId: ${SPAN_ID}"
 	if [[ $OTEL_LOG_LEVEL == "debug" ]]; then
-		log_info "Parent TraceId: ${UUID_TRACE_ID}"
-		log_info "Parent spanId: ${UUID_PARENT_SPAN_ID:0:16}"
-		log_info "Child spanId: ${UUID_SPAN_CHILD_ID:0:16}"
+		log_info "Parent TraceId: ${TRACE_ID}"
+		log_info "Parent spanId: ${PARENT_SPAN_ID:0:16}"
+		log_info "Child spanId: ${SPAN_ID:0:16}"
 		echo "JSON: ${JSON}"
-		echo "URL: ${URL}"
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces"
+		echo "OTEL_EXPORTER_OTEL_ENDPOINT: ${OTEL_EXPORTER_OTEL_ENDPOINT}"
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 
 	else
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/traces" -o /dev/null -s
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
 	fi
 
 }
