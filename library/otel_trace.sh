@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_init.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
 
 # export OTEL_EXPORTER_OTEL_ENDPOINT=""
