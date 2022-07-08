@@ -20,7 +20,13 @@ function trace_parent {
 {"resourceSpans":[{
 	"resource":{
 		"attributes":[
-			{"key":"service.name","value":{"stringValue":"$(basename "$0")"}}
+			{"key":"service.name","value":{"stringValue":"$(basename "$0")"}},
+			{"key":"service.namespace","value":{"stringValue":"${NAME}"}},
+			{"key":"service.instance.id","value":{"stringValue":"${HOSTNAME}"}},
+			{"key":"service.version","value":{"stringValue":"${OTEL_SH_VERSION}"}},
+			{"key":"telemetry.sdk.name","value":{"stringValue":"opentelemetry.sh"}},
+			{"key":"telemetry.sdk.language","value":{"stringValue":"shell"}},
+			{"key":"telemetry.sdk.version","value":{"stringValue":"${OTEL_SH_VERSION}"}}
 		]
 	},
 	"scopeSpans":[{
@@ -34,9 +40,10 @@ function trace_parent {
 				"startTimeUnixNano":"${EPOCH_START}000000000",
 				"endTimeUnixNano":"${EPOCH_END}000000000",
 				"attributes":[
-					{"key":"bash.errorlevel","value":{"stringValue":"${EXIT_CODE}"}},
-					{"key":"bash.version","value":{"stringValue":"${BASH_VERSION}"}},
-                    {"key":"bash.pwd","value":{"stringValue":"${PWD}"}},
+					{"key":"shell.errorlevel","value":{"stringValue":"${EXIT_CODE}"}},
+                    {"key":"shell.pwd","value":{"stringValue":"${PWD}"}},
+					{"key":"shell.user","value":{"stringValue":"${USER}"}},
+					{"key":"shell.version","value":{"stringValue":"${BASH_VERSION}"}},
                     {"key":"command","value":{"stringValue":"$@"}},
                     {"key":"os.version","value":{"stringValue":"${OS_VERSION}"}}
 				],
@@ -78,7 +85,13 @@ function trace_child {
 {"resourceSpans":[{
 	"resource":{
 		"attributes":[
-			{"key":"service.name","value":{"stringValue":"$(basename "$0")"}}
+			{"key":"service.name","value":{"stringValue":"$(basename "$0")"}},
+			{"key":"service.namespace","value":{"stringValue":"${NAME}"}},
+			{"key":"service.instance.id","value":{"stringValue":"${HOSTNAME}"}},
+			{"key":"service.version","value":{"stringValue":"${OTEL_SH_VERSION}"}},
+			{"key":"telemetry.sdk.name","value":{"stringValue":"opentelemetry.sh"}},
+			{"key":"telemetry.sdk.language","value":{"stringValue":"shell"}},
+			{"key":"telemetry.sdk.version","value":{"stringValue":"${OTEL_SH_VERSION}"}}
 		]
 	},
 	"scopeSpans":[{
@@ -92,9 +105,10 @@ function trace_child {
 				"startTimeUnixNano":"${EPOCH_CHILD_START}000000000",
 				"endTimeUnixNano":"${EPOCH_CHILD_END}000000000",
 				"attributes":[
-					{"key":"bash.errorlevel","value":{"stringValue":"${EXIT_CODE}"}},
-					{"key":"bash.version","value":{"stringValue":"${BASH_VERSION}"}},
-                    {"key":"bash.pwd","value":{"stringValue":"${PWD}"}},
+					{"key":"shell.errorlevel","value":{"stringValue":"${EXIT_CODE}"}},
+                    {"key":"shell.pwd","value":{"stringValue":"${PWD}"}},
+					{"key":"shell.user","value":{"stringValue":"${USER}"}},
+					{"key":"shell.version","value":{"stringValue":"${BASH_VERSION}"}},
                     {"key":"command","value":{"stringValue":"$@"}},
                     {"key":"os.version","value":{"stringValue":"${OS_VERSION}"}}
 				],
