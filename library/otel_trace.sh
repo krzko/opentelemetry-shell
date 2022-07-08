@@ -23,10 +23,10 @@ function trace_parent {
 			{"key":"service.name","value":{"stringValue":"$(basename "$0")"}},
 			{"key":"service.namespace","value":{"stringValue":"${NAME}"}},
 			{"key":"service.instance.id","value":{"stringValue":"${HOSTNAME}"}},
-			{"key":"service.version","value":{"stringValue":"${OTEL_SH_VERSION}"}},
-			{"key":"telemetry.sdk.name","value":{"stringValue":"opentelemetry.sh"}},
-			{"key":"telemetry.sdk.language","value":{"stringValue":"shell"}},
-			{"key":"telemetry.sdk.version","value":{"stringValue":"${OTEL_SH_VERSION}"}}
+			{"key":"service.version","value":{"stringValue":"${SERVICE_VERSION}"}},
+			{"key":"telemetry.sdk.name","value":{"stringValue":"${TELEMETRY_SDK_NAME}"}},
+			{"key":"telemetry.sdk.language","value":{"stringValue":"${TELEMETRY_SDK_LANG}"}},
+			{"key":"telemetry.sdk.version","value":{"stringValue":"${TELEMETRY_SDK_VER}"}}
 		]
 	},
 	"scopeSpans":[{
@@ -88,10 +88,10 @@ function trace_child {
 			{"key":"service.name","value":{"stringValue":"$(basename "$0")"}},
 			{"key":"service.namespace","value":{"stringValue":"${NAME}"}},
 			{"key":"service.instance.id","value":{"stringValue":"${HOSTNAME}"}},
-			{"key":"service.version","value":{"stringValue":"${OTEL_SH_VERSION}"}},
-			{"key":"telemetry.sdk.name","value":{"stringValue":"opentelemetry.sh"}},
-			{"key":"telemetry.sdk.language","value":{"stringValue":"shell"}},
-			{"key":"telemetry.sdk.version","value":{"stringValue":"${OTEL_SH_VERSION}"}}
+			{"key":"service.version","value":{"stringValue":"${SERVICE_VERSION}"}},
+			{"key":"telemetry.sdk.name","value":{"stringValue":"${TELEMETRY_SDK_NAME}"}},
+			{"key":"telemetry.sdk.language","value":{"stringValue":"${TELEMETRY_SDK_LANG}"}},
+			{"key":"telemetry.sdk.version","value":{"stringValue":"${TELEMETRY_SDK_VER}"}}
 		]
 	},
 	"scopeSpans":[{

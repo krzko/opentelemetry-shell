@@ -3,6 +3,8 @@
 source ../library/log.sh
 source ../library/otel_trace.sh
 
+SERVICE_VERSION="0.0.1-dev"
+
 function curl_httpbin_200 {
   log_info "curl httpbin 200"
   curl -X GET "https://httpbin.org/status/200" -H  "accept: text/plain"
