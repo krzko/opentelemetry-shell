@@ -4,7 +4,7 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_init.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
 
 export TRACE_ID=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
-export PARENT_SPAN_ID
+PARENT_SPAN_ID=""
 
 function trace_parent {
 	local -r NAME="$1"	
