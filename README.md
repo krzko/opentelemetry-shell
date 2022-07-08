@@ -1,14 +1,12 @@
 # opentelemetry-shell
 
-🚦 OpenTelemetry functions for shells
-
-## Why
-
 **Logs**, **metrics**, and **traces** are often known as the three pillars of observability. We take great care to ensure we cover these pillars in our services.
 
 But, underpinning these services is usually a script. `Bash` has been around for many decades now and other shells for even longer. This is usually the glue that ensures we can manage, deploy and perform many tasks around the services that we develop.
 
-Why not ensure that these scripts are observable and send back telemery data as well? This is the aim of `opentelemetry.sh`.
+Why not ensure that these scripts are observable and send back telemery data as well? This is the aim of [opentelemetry.sh](https://opentelemetry.io/), a set of [OpenTelemetry](https://opentelemetry.io/) functions for shells.
+
+The functions utilise the [OpenTelemetry Protocol Specification (OTLP)](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/otlp.md) to send telemtry data back to any service that supports [OTLP (HTTP)](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/otlp.md#otlphttp). This is traditionally via an [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) or a vendor that supports this API specification.
 
 ## Requirements
 
