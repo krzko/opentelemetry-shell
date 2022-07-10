@@ -1,22 +1,32 @@
 #!/usr/bin/env bash
+#
+# AUTHORS, LICENSE and DOCUMENTATION
+#
+
+resource_attributes_arr=(
+  "environment:dev"
+  "team:ops"
+  "support:#ops-support"
+)
+
+service_version="0.0.1-dev"
 
 source ../library/log.sh
 source ../library/otel_trace.sh
 
-SERVICE_VERSION="0.0.1-dev"
-
-function curl_httpbin_200 {
-  log_info "curl httpbin 200"
+curl_httpbin_200() {
+  log_info "curl -X GET https://httpbin.org/status/200 -H  'accept: text/plain'"
   curl -X GET "https://httpbin.org/status/200" -H  "accept: text/plain"
 }
 
-function curl_httpbin_201 {
-  log_info "curl httpbin - 201"
+curl_httpbin_201() {
+  log_info "curl -X GET https://httpbin.org/status/201 -H  'accept: text/plain'"
   curl -X GET "https://httpbin.org/status/201" -H  "accept: text/plain"
 }
 
-trace_parent curl_httpbin_200
+otel_trace_start_parent_span curl_httpbin_200
 
-trace_child curl_httpbin_201
+otel_trace_start_child_span curl_httpbin_201
 
 log_info "TraceId ${TRACE_ID}"
+log_info "ParentSpanId: ${PARENT_SPAN_ID=${span_id:0:16}}"
