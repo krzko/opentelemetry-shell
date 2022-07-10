@@ -54,7 +54,7 @@ otel_trace_start_parent_span() {
 		log_info "parentSpanId: ${PARENT_SPAN_ID}"
 		log_info "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
 		log_info "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_trace_resource_spans} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" 
+		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 	else
 		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
@@ -101,7 +101,7 @@ otel_trace_start_child_span() {
 		log_info "parentSpanId: ${PARENT_SPAN_ID}"
 		log_info "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
 		log_info "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_trace_resource_spans} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" 
+		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 	else
 		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s

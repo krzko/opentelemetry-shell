@@ -19,14 +19,14 @@ otel_trace_resource_spans=$(cat <<EOF
   "resourceSpans": [
     {
       "resource": {
-		"attributes":[
-			{"key":"service.name","value":{"stringValue":"${0##*/}"}},
-			{"key":"service.instance.id","value":{"stringValue":"${hostname}"}},
-			{"key":"service.version","value":{"stringValue":"${service_version}"}},
-			{"key":"telemetry.sdk.name","value":{"stringValue":"${telemetry_sdk_name}"}},
-			{"key":"telemetry.sdk.language","value":{"stringValue":"${telemetry_sdk_lang}"}},
-			{"key":"telemetry.sdk.version","value":{"stringValue":"${telemetry_sdk_ver}"}}
-		]
+        "attributes":[
+          {"key":"service.name","value":{"stringValue":"${0##*/}"}},
+          {"key":"service.instance.id","value":{"stringValue":"${hostname}"}},
+          {"key":"service.version","value":{"stringValue":"${service_version}"}},
+          {"key":"telemetry.sdk.name","value":{"stringValue":"${telemetry_sdk_name}"}},
+          {"key":"telemetry.sdk.language","value":{"stringValue":"${telemetry_sdk_lang}"}},
+          {"key":"telemetry.sdk.version","value":{"stringValue":"${telemetry_sdk_ver}"}}
+        ]
 	},
       "scopeSpans": [
         {
@@ -52,11 +52,11 @@ EOF
 #   0 if print succeeds, non-zero on error.
 #######################################
 otel_trace_add_string_resource_attrib() {
-    local key="${1}"
-    local value="${2}"
+  local key="${1}"
+  local value="${2}"
 
-    
-    local attribute=$(cat <<EOF
+
+  local attribute=$(cat <<EOF
 {
   "key": "${1}",
   "value": { "stringValue": "${2}" }
@@ -64,8 +64,7 @@ otel_trace_add_string_resource_attrib() {
 EOF
 )
 
-    otel_trace_resource_spans=$(jq -r ".resourceSpans[].resource.attributes += [$attribute]" <<< $otel_trace_resource_spans)
-    
+  otel_trace_resource_spans=$(jq -r ".resourceSpans[].resource.attributes += [$attribute]" <<< $otel_trace_resource_spans)
 }
 
 #######################################
@@ -80,11 +79,11 @@ EOF
 #   0 if print succeeds, non-zero on error.
 #######################################
 otel_trace_add_int_resource_attrib() {
-    local key="${1}"
-    local value=$2
+  local key="${1}"
+  local value=$2
 
-    
-    local attribute=$(cat <<EOF
+
+  local attribute=$(cat <<EOF
 {
   "key": "${1}",
   "value": { "intValue": $2 }
@@ -92,8 +91,7 @@ otel_trace_add_int_resource_attrib() {
 EOF
 )
 
-    otel_trace_resource_spans=$(jq -r ".resourceSpans[].resource.attributes += [$attribute]" <<< $otel_trace_resource_spans)
-    
+  otel_trace_resource_spans=$(jq -r ".resourceSpans[].resource.attributes += [$attribute]" <<< $otel_trace_resource_spans)
 }
 
 #######################################
@@ -112,10 +110,10 @@ otel_trace_add_resource_scopespans_span() {
 
 	local name=$1
 	local trace_id=$2
-    local span_id=$3
+  local span_id=$3
 	local parent_span_id=$4
 	local start_time_unix_nano=$5
-    local end_time_unix_nano=$6
+  local end_time_unix_nano=$6
 	local status_code=$7
 
 	if [[ $status_code -eq 0 ]]; then
@@ -141,8 +139,7 @@ otel_trace_add_resource_scopespans_span() {
 EOF
 )
 
-    otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[].spans += [$span]" <<< $otel_trace_resource_spans)
+  otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[].spans += [$span]" <<< $otel_trace_resource_spans)
 
 	parent_span_id=$span_id
-    
 }
