@@ -27,7 +27,7 @@ Whilst all effort has been made to limit the use of external binaries from the s
 - `uuidgen`: generates new UUID strings
 - `uname`: Print operating system name
 
-As a future enhancement all effort will be made to remove the need for external binaries and just utilise the built-in functons.
+As a future enhancement all effort will be made to remove the need for as many external binaries as possible and just utilise the built-in functions.
 
 ## Howto
 
