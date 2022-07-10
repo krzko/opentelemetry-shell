@@ -11,15 +11,17 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_trace_schema.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
 
 #######################################
-# Print a given string
+# Starts a new parent trace bound to the TRACE_ID
 # GLOBALS:
-#   A_STRING_PREFIX
+#   TRACE_ID
+#   PARENT_SPAN_ID
 # ARGUMENTS:
-#   String to print
+#   name of calling command/function
 # OUTPUTS:
-#   Write String to stdout
+#   Write to stdout via ConsoleExporter
+#   Curl to OTLP (HTTP) Receiver
 # RETURN:
-#   0 if print succeeds, non-zero on error.
+#   0 if curl succeeds, non-zero on error.
 #######################################
 otel_trace_start_parent_span() {
 	local name=$1
@@ -64,15 +66,17 @@ otel_trace_start_parent_span() {
 }
 
 #######################################
-# Print a given string
+# Starts a new child trace bound to the TRACE_ID and PARENT_SPAN_ID
 # GLOBALS:
-#   A_STRING_PREFIX
+#   TRACE_ID
+#   PARENT_SPAN_ID
 # ARGUMENTS:
-#   String to print
+#   name of calling command/function
 # OUTPUTS:
-#   Write String to stdout
+#   Write to stdout via ConsoleExporter
+#   Curl to OTLP (HTTP) Receiver
 # RETURN:
-#   0 if print succeeds, non-zero on error.
+#   0 if curl succeeds, non-zero on error.
 #######################################
 otel_trace_start_child_span() {
 	local name=$1

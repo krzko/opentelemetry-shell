@@ -3,17 +3,8 @@
 # AUTHORS, LICENSE and DOCUMENTATION
 #
 
-#######################################
-# Print a given string
-# GLOBALS:
-#   A_STRING_PREFIX
-# ARGUMENTS:
-#   String to print
-# OUTPUTS:
-#   Write String to stdout
-# RETURN:
-#   0 if print succeeds, non-zero on error.
-#######################################
+# otel_trace_resource_spans stores the .resourceSpans[].resource.attributes[].
+# This is the outer json schema
 otel_trace_resource_spans=$(cat <<EOF
 {
   "resourceSpans": [
@@ -41,20 +32,16 @@ EOF
 )
 
 #######################################
-# Print a given string
+# Adds an object of type string into .resourceSpans[].resource.attributes[] array
 # GLOBALS:
 #   A_STRING_PREFIX
 # ARGUMENTS:
-#   String to print
-# OUTPUTS:
-#   Write String to stdout
-# RETURN:
-#   0 if print succeeds, non-zero on error.
+#   Key for the attribute
+#   Value for the attribute
 #######################################
 otel_trace_add_string_resource_attrib() {
   local key="${1}"
   local value="${2}"
-
 
   local attribute=$(cat <<EOF
 {
@@ -68,20 +55,16 @@ EOF
 }
 
 #######################################
-# Print a given string
+# Adds an object of type int into .resourceSpans[].resource.attributes[] array
 # GLOBALS:
 #   A_STRING_PREFIX
 # ARGUMENTS:
-#   String to print
-# OUTPUTS:
-#   Write String to stdout
-# RETURN:
-#   0 if print succeeds, non-zero on error.
+#   Key for the attribute
+#   Value for the attribute
 #######################################
 otel_trace_add_int_resource_attrib() {
   local key="${1}"
   local value=$2
-
 
   local attribute=$(cat <<EOF
 {
@@ -95,15 +78,14 @@ EOF
 }
 
 #######################################
-# Print a given string
-# GLOBALS:
-#   A_STRING_PREFIX
+# Adds a span object into .resourceSpans[].scopeSpans[].spans array
 # ARGUMENTS:
-#   String to print
-# OUTPUTS:
-#   Write String to stdout
-# RETURN:
-#   0 if print succeeds, non-zero on error.
+#  name of calling command/function
+#  traceId, the top level Trace Id
+#  spanId, the current Span Id
+#  parentSpanId, the Id to asscociate the current span to
+#  startTimeUnixNano, starting epoc time of the span
+#  endTimeUnixNano, ending epoch time of the span
 #######################################
 otel_trace_add_resource_scopespans_span() {
 	# log_info "Using ${1} ${2} ${3} ${4} ${5} ${6} ${7}"

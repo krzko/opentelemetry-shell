@@ -22,6 +22,7 @@ Whilst all effort has been made to limit the use of external binaries from the s
 
 - `date`: display or set date and time
 - `hostname`: set or print name of current host system
+- `jq`: Command-line JSON processor
 - `tr`: translate characters
 - `uuidgen`: generates new UUID strings
 - `uname`: Print operating system name
