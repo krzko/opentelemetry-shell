@@ -3,13 +3,14 @@
 # AUTHORS, LICENSE and DOCUMENTATION
 #
 
-export TRACE_ID=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
-export PARENT_SPAN_ID=""
-
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_init.sh"
 # source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_trace_exporter.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_trace_schema.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/uuid.sh"
+
+export TRACE_ID=$(generate_uuid 16)
+export PARENT_SPAN_ID=""
 
 #######################################
 # Starts a new parent trace bound to the TRACE_ID
@@ -26,7 +27,7 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
 #######################################
 otel_trace_start_parent_span() {
 	local name=$1
-	local span_id=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
+	local span_id=$(generate_uuid 8)
 
 	local start_time_unix_nano=$(date +%s)
 	"$@"
@@ -45,7 +46,7 @@ otel_trace_start_parent_span() {
 	# log_info "Passing ${name} ${TRACE_ID} ${span_id:0:16} ${parent_span_id} ${start_time_unix_nano} ${end_time_unix_nano} ${exit_status}"
 	otel_trace_add_resource_scopespans_span $name \
 		$TRACE_ID \
-		${span_id:0:16} \
+		${span_id} \
 		"" \
 		$start_time_unix_nano \
 		$end_time_unix_nano \
@@ -56,7 +57,7 @@ otel_trace_start_parent_span() {
 		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
 	else
 		log_info "traceId: ${TRACE_ID}"
-		log_info "spanId: ${span_id:0:16}"
+		log_info "spanId: ${span_id}"
 		log_info "parentSpanId: ${PARENT_SPAN_ID}"
 		log_info "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
 		log_info "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_trace_resource_spans} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
@@ -81,7 +82,7 @@ otel_trace_start_parent_span() {
 #######################################
 otel_trace_start_child_span() {
 	local name=$1
-	local span_id=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
+	local span_id=$(generate_uuid 8)
 
 	local start_time_unix_nano=$(date +%s)
 	"$@"
@@ -94,7 +95,7 @@ otel_trace_start_child_span() {
 	# log_info "Passing ${name} ${TRACE_ID} ${span_id:0:16} ${parent_span_id} ${start_time_unix_nano} ${end_time_unix_nano} ${exit_status}"
 	otel_trace_add_resource_scopespans_span $name \
 		$TRACE_ID \
-		${span_id:0:16} \
+		${span_id} \
 		$PARENT_SPAN_ID \
 		$start_time_unix_nano \
 		$end_time_unix_nano \
@@ -105,12 +106,12 @@ otel_trace_start_child_span() {
 		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
 	else
 		log_info "traceId: ${TRACE_ID}"
-		log_info "spanId: ${span_id:0:16}"
+		log_info "spanId: ${span_id}"
 		log_info "parentSpanId: ${PARENT_SPAN_ID}"
 		log_info "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
 		log_info "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_trace_resource_spans} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 	fi
 
-	PARENT_SPAN_ID=${span_id:0:16}
+	PARENT_SPAN_ID=${span_id}
 }
