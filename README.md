@@ -47,7 +47,7 @@ The following environment variables will be currentl used:
 
 <!-- - `OTEL_RESOURCE_ATTRIBUTES` - Key-value pairs to be used as resource attributes -->
 - `OTEL_SERVICE_NAME`: Sets the value of the `service.name` resource attribute
-- `OTEL_LOG_LEVEL`: Log level used by the logger, `info|debug`
+- `OTEL_LOG_LEVEL`: Log level used by the logger, `debug`. Unset variable to disable verbose logging
 
 **[Exporter Selection](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/sdk-environment-variables.md#exporter-selection)**
 

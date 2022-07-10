@@ -2,6 +2,7 @@
 #
 # AUTHORS, LICENSE and DOCUMENTATION
 #
+
 export TRACE_ID=$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')
 export PARENT_SPAN_ID=""
 
