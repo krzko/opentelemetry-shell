@@ -51,16 +51,16 @@ otel_trace_start_parent_span() {
 		$end_time_unix_nano \
 		$exit_status
 
-	if [[ $OTEL_LOG_LEVEL == "debug" ]]; then
+  if [ -z ${OTEL_LOG_LEVEL-} ]; then
+		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
+		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
+	else
 		log_info "traceId: ${TRACE_ID}"
 		log_info "spanId: ${span_id:0:16}"
 		log_info "parentSpanId: ${PARENT_SPAN_ID}"
 		log_info "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
 		log_info "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_trace_resource_spans} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-	else
-		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
 	fi
 
 	PARENT_SPAN_ID=${span_id:0:16}
@@ -100,16 +100,16 @@ otel_trace_start_child_span() {
 		$end_time_unix_nano \
 		$exit_status
 
-	if [[ $OTEL_LOG_LEVEL == "debug" ]]; then
+  if [ -z ${OTEL_LOG_LEVEL-} ]; then
+		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
+		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
+	else
 		log_info "traceId: ${TRACE_ID}"
 		log_info "spanId: ${span_id:0:16}"
 		log_info "parentSpanId: ${PARENT_SPAN_ID}"
 		log_info "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
 		log_info "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_trace_resource_spans} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-	else
-		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
 	fi
 
 	PARENT_SPAN_ID=${span_id:0:16}

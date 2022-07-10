@@ -1,0 +1,11 @@
+FROM debian:11-slim
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends jq uuid-runtime \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY . /root/opentelemetry-shell
+
+WORKDIR /root/opentelemetry-shell
+
+ENTRYPOINT ["bash"]

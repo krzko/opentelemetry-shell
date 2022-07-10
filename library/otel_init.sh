@@ -19,7 +19,7 @@ export telemetry_sdk_ver="0.0.1"
 # OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
 # OTEL_EXPORTER_OTLP_LOGS_ENDPOINT
 
-if [[ -z $OTEL_EXPORTER_OTEL_ENDPOINT ]]; then
-  log_error "OTEL_EXPORTER_OTEL_ENDPOINT not set"
+if [ -z ${OTEL_EXPORTER_OTEL_ENDPOINT-} ]; then
+  log_error "OTEL_EXPORTER_OTEL_ENDPOINT not exported"
   exit 1
 fi
