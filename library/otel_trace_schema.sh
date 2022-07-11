@@ -33,13 +33,11 @@ EOF
 
 #######################################
 # Adds an object of type string into .resourceSpans[].resource.attributes[] array
-# GLOBALS:
-#   A_STRING_PREFIX
 # ARGUMENTS:
 #   Key for the attribute
 #   Value for the attribute
 #######################################
-otel_trace_add_string_resource_attrib() {
+otel_trace_add_resourcespan_resource_attrib_string() {
   local key="${1}"
   local value="${2}"
 
@@ -124,4 +122,25 @@ EOF
   otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[].spans += [$span]" <<< $otel_trace_resource_spans)
 
 	parent_span_id=$span_id
+}
+
+#######################################
+# Adds an object of type string into .resourceSpans[].scopeSpans[].spans[].attributes
+# ARGUMENTS:
+#   Key for the attribute
+#   Value for the attribute
+#######################################
+otel_trace_add_resourcespan_scopespans_spans_attrib_string() {
+  local key="${1}"
+  local value="${2}"
+
+  local attribute=$(cat <<EOF
+{
+  "key": "${1}",
+  "value": { "stringValue": "${2}" }
+}
+EOF
+)
+
+  otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[].spans[].attributes += [$attribute]" <<< $otel_trace_resource_spans)
 }

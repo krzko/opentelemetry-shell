@@ -36,14 +36,15 @@ otel_trace_start_parent_span() {
 
 	if [ $resource_attributes_arr ]; then
 		for attr in "${resource_attributes_arr[@]}"; do
-			otel_trace_add_string_resource_attrib "${attr%%:*}" "${attr#*:}"
+			otel_trace_add_resourcespan_resource_attrib_string "${attr%%:*}" "${attr#*:}"
 		done
 	fi
 
-	# otel_trace_add_string_resource_attrib "service.namespace" "${name}"
+	# otel_trace_add_resourcespan_resource_attrib_string "service.namespace" "${name}"
 	# otel_trace_add_int_resource_attrib "service.foo" 100
 
 	# log_info "Passing ${name} ${TRACE_ID} ${span_id:0:16} ${parent_span_id} ${start_time_unix_nano} ${end_time_unix_nano} ${exit_status}"
+  # "$*"
 	otel_trace_add_resource_scopespans_span $name \
 		$TRACE_ID \
 		${span_id} \
@@ -51,6 +52,8 @@ otel_trace_start_parent_span() {
 		$start_time_unix_nano \
 		$end_time_unix_nano \
 		$exit_status
+
+	otel_trace_add_resourcespan_scopespans_spans_attrib_string "command" "$*"
 
   if [ -z ${OTEL_LOG_LEVEL-} ]; then
 		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
@@ -64,7 +67,7 @@ otel_trace_start_parent_span() {
 		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 	fi
 
-	PARENT_SPAN_ID=${span_id:0:16}
+	PARENT_SPAN_ID=${span_id}
 }
 
 #######################################
@@ -89,7 +92,7 @@ otel_trace_start_child_span() {
 	local end_time_unix_nano=$(date +%s)
 	local exit_status=$?
 
-	# otel_trace_add_string_resource_attrib "service.namespace" "${name}"
+	# otel_trace_add_resourcespan_resource_attrib_string "service.namespace" "${name}"
 	# otel_trace_add_int_resource_attrib "service.foo" 100
 
 	# log_info "Passing ${name} ${TRACE_ID} ${span_id:0:16} ${parent_span_id} ${start_time_unix_nano} ${end_time_unix_nano} ${exit_status}"
@@ -100,6 +103,8 @@ otel_trace_start_child_span() {
 		$start_time_unix_nano \
 		$end_time_unix_nano \
 		$exit_status
+
+    otel_trace_add_resourcespan_scopespans_spans_attrib_string "command" "$*"
 
   if [ -z ${OTEL_LOG_LEVEL-} ]; then
 		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
