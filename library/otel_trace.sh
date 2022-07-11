@@ -7,6 +7,7 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_init.sh"
 # source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_trace_exporter.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_trace_schema.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/time.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/uuid.sh"
 
 export TRACE_ID=$(generate_uuid 16)
@@ -29,9 +30,9 @@ otel_trace_start_parent_span() {
 	local name=$1
 	local span_id=$(generate_uuid 8)
 
-	local start_time_unix_nano=$(date +%s)
+	local start_time_unix_nano=$(get_epoch_now)
 	"$@"
-	local end_time_unix_nano=$(date +%s)
+	local end_time_unix_nano=$(get_epoch_now)
 	local exit_status=$?
 
 	if [ $resource_attributes_arr ]; then
@@ -57,7 +58,7 @@ otel_trace_start_parent_span() {
 
   if [ -z ${OTEL_LOG_LEVEL-} ]; then
 		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
 	else
     log_info "[$( caller )] $*" >&2
     log_info "BASH_SOURCE: ${BASH_SOURCE[*]}"
@@ -69,7 +70,7 @@ otel_trace_start_parent_span() {
 		log_info "parentSpanId: ${PARENT_SPAN_ID}"
 		log_info "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
 		log_info "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_trace_resource_spans} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 	fi
 
 	PARENT_SPAN_ID=${span_id}
@@ -92,9 +93,9 @@ otel_trace_start_child_span() {
 	local name=$1
 
 	local span_id=$(generate_uuid 8)
-	local start_time_unix_nano=$(date +%s)
+	local start_time_unix_nano=$(get_epoch_now)
 	"$@"
-	local end_time_unix_nano=$(date +%s)
+	local end_time_unix_nano=$(get_epoch_now)
 	local exit_status=$?
 
 	# otel_trace_add_resourcespan_resource_attrib_string "service.namespace" "${name}"
@@ -115,7 +116,7 @@ otel_trace_start_child_span() {
 
   if [ -z ${OTEL_LOG_LEVEL-} ]; then
 		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
 	else
     log_info "[$( caller )] $*" >&2
     log_info "BASH_SOURCE: ${BASH_SOURCE[*]}"
@@ -127,7 +128,7 @@ otel_trace_start_child_span() {
 		log_info "parentSpanId: ${PARENT_SPAN_ID}"
 		log_info "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
 		log_info "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_trace_resource_spans} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 	fi
 
 	PARENT_SPAN_ID=${span_id}

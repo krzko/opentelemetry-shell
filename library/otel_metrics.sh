@@ -7,9 +7,9 @@ function send_count_metric {
 	local -r NAME="$1"
 	local -r URL="$2"
 
-	local EPOCH_START=$(date +%s)
+	local EPOCH_START=$(get_epoch_now)
 	sleep 1
-	local EPOCH_END=$(date +%s)
+	local EPOCH_END=$(get_epoch_now)
 
     RANDOM=$((1 + $RANDOM % 10))
 
@@ -68,7 +68,7 @@ EOF
 	log_info "Sending Metric: otel.shell_random_count=${RANDOM}"
 	if [[ $OTEL_LOG_LEVEL == "debug" ]]; then
 		echo "${JSON}"
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/metrics" 
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/metrics"
 	else
 		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/metrics" -o /dev/null -s
 	fi
