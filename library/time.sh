@@ -2,6 +2,13 @@
 
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
 
+#######################################
+# Gets the Unix epoch timesyamp in nanoseconds
+# GLOBALS:
+#   EPOCHREALTIME
+# OUTPUTS:
+#   Write to stdout
+#######################################
 get_epoch_now() {
   local epoch=""
 
