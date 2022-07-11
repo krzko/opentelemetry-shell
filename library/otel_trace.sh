@@ -59,6 +59,11 @@ otel_trace_start_parent_span() {
 		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
 	else
+    log_info "[$( caller )] $*" >&2
+    log_info "BASH_SOURCE: ${BASH_SOURCE[*]}"
+    log_info "BASH_LINENO: ${BASH_LINENO[*]}"
+    log_info "FUNCNAME: ${FUNCNAME[*]}"
+
 		log_info "traceId: ${TRACE_ID}"
 		log_info "spanId: ${span_id}"
 		log_info "parentSpanId: ${PARENT_SPAN_ID}"
@@ -85,8 +90,8 @@ otel_trace_start_parent_span() {
 #######################################
 otel_trace_start_child_span() {
 	local name=$1
-	local span_id=$(generate_uuid 8)
 
+	local span_id=$(generate_uuid 8)
 	local start_time_unix_nano=$(date +%s)
 	"$@"
 	local end_time_unix_nano=$(date +%s)
@@ -105,11 +110,18 @@ otel_trace_start_child_span() {
 		$exit_status
 
   otel_trace_add_resourcespan_scopespans_spans_attrib_string "command" "$*"
+  otel_trace_add_resourcespan_scopespans_spans_attrib_string "code.url" "${PWD}/${0##*/}#L${BASH_LINENO[0]}"
+  otel_trace_add_resourcespan_scopespans_spans_attrib_string "function" "${FUNCNAME[1]}()"
 
   if [ -z ${OTEL_LOG_LEVEL-} ]; then
 		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 		# curl -ik -X POST -H 'Content-Type: application/json' -d "${json}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
 	else
+    log_info "[$( caller )] $*" >&2
+    log_info "BASH_SOURCE: ${BASH_SOURCE[*]}"
+    log_info "BASH_LINENO: ${BASH_LINENO[*]}"
+    log_info "FUNCNAME: ${FUNCNAME[*]}"
+
 		log_info "traceId: ${TRACE_ID}"
 		log_info "spanId: ${span_id}"
 		log_info "parentSpanId: ${PARENT_SPAN_ID}"

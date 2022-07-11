@@ -10,8 +10,9 @@ function log {
   local -r level="$1"
   local -r message="$2"
   local -r timestamp=$(date +"%Y-%m-%d %H:%M:%S")
-  local -r script_name="$(basename "$0")"
-  echo_stderr -e "${timestamp} [${level}] [$script_name] ${message}"
+  local -r script_name="${0##*/}#L${BASH_LINENO[1]}"
+  local -r function="${FUNCNAME[2]}"
+  echo_stderr -e "${timestamp} [${level}] [$script_name] ["${function}"()] ${message}"
 }
 
 # Log the given message at INFO level. All logs are written to stderr with a timestamp.
