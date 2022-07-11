@@ -104,7 +104,7 @@ otel_trace_start_child_span() {
 		$end_time_unix_nano \
 		$exit_status
 
-    otel_trace_add_resourcespan_scopespans_spans_attrib_string "command" "$*"
+  otel_trace_add_resourcespan_scopespans_spans_attrib_string "command" "$*"
 
   if [ -z ${OTEL_LOG_LEVEL-} ]; then
 		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"

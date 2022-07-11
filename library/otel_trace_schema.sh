@@ -119,7 +119,7 @@ otel_trace_add_resource_scopespans_span() {
 EOF
 )
 
-  otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[].spans += [$span]" <<< $otel_trace_resource_spans)
+  otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[-1].spans += [$span]" <<< $otel_trace_resource_spans)
 
 	parent_span_id=$span_id
 }
@@ -142,5 +142,5 @@ otel_trace_add_resourcespan_scopespans_spans_attrib_string() {
 EOF
 )
 
-  otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[].spans[].attributes += [$attribute]" <<< $otel_trace_resource_spans)
+  otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[].spans[-1].attributes += [$attribute]" <<< $otel_trace_resource_spans)
 }
