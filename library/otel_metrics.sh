@@ -1,75 +1,48 @@
 #!/usr/bin/env bash
 
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_init.sh"
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_metrics_schema.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/time.sh"
 
-function send_count_metric {
-	local -r NAME="$1"
-	local -r URL="$2"
+function otel_metrics_push_gauge {
+	local name=$1
+	local description=$2
+  local unit=$3
+	local key=$4
+	local value=$5
+	local as_int_value=$6
 
-	local EPOCH_START=$(get_epoch_now)
-	sleep 1
-	local EPOCH_END=$(get_epoch_now)
+  local time_unix_namo=$(get_epoch_now)
 
-    RANDOM=$((1 + $RANDOM % 10))
+  if [ $resource_attributes_arr ]; then
+		for attr in "${resource_attributes_arr[@]}"; do
+			otel_metrics_add_resourcemetrics_resource_attrib_string "${attr%%:*}" "${attr#*:}"
+		done
+	fi
 
-	local JSON=$(cat <<EOF
-{
-  "resourceMetrics": [
-    {
-      "resource": {
-        "attributes": [
-          {
-            "key": "service.name",
-            "value": {
-              "stringValue": "unknown_service"
-            }
-          }
-        ],
-        "droppedAttributesCount": 0
-      },
-      "instrumentationLibraryMetrics": [
-        {
-          "metrics": [
-            {
-              "name": "random_count",
-              "description": "",
-              "unit": "1",
-              "Sum": {
-                "dataPoints": [
-                  {
-                    "labels": [
-                      {
-                        "key": "hostname",
-                        "value": "test.local"
-                      }
-                    ],
-                    "value": 36,
-                    "startTimeUnixNano": 1623690881701000000,
-                    "timeUnixNano": 1623690893726877700
-                  }
-                ],
-                "isMonotonic": true,
-                "aggregationTemporality": 2
-              }
-            }
-          ],
-          "instrumentationLibrary": {
-            "name": "handmade"
-          }
-        }
-      ]
-    }
-  ]
-}
-EOF
-)
+  otel_metrics_add_gauge $name \
+		$description \
+		$unit
 
-	log_info "Sending Metric: otel.shell_random_count=${RANDOM}"
-	if [[ $OTEL_LOG_LEVEL == "debug" ]]; then
-		echo "${JSON}"
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/metrics"
+  otel_metrics_add_gauge_datapoint $key \
+    $value \
+    $as_int_value
+
+  if [ -z ${OTEL_LOG_LEVEL-} ]; then
+		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_metrics_resource_metrics}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics" -o /dev/null -s
 	else
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${JSON}" "${URL}/v1/metrics" -o /dev/null -s
+    log_info "[$( caller )] $*" >&2
+    log_info "BASH_SOURCE: ${BASH_SOURCE[*]}"
+    log_info "BASH_LINENO: ${BASH_LINENO[*]}"
+    log_info "FUNCNAME: ${FUNCNAME[*]}"
+
+		log_info "name: ${name}"
+		log_info "key: ${key}"
+		log_info "value: ${value}"
+		log_info "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
+		log_info "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_metrics_resource_metrics} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
+		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_metrics_resource_metrics}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
 	fi
 }

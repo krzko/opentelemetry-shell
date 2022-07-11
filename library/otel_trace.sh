@@ -41,11 +41,6 @@ otel_trace_start_parent_span() {
 		done
 	fi
 
-	# otel_trace_add_resourcespan_resource_attrib_string "service.namespace" "${name}"
-	# otel_trace_add_int_resource_attrib "service.foo" 100
-
-	# log_info "Passing ${name} ${TRACE_ID} ${span_id:0:16} ${parent_span_id} ${start_time_unix_nano} ${end_time_unix_nano} ${exit_status}"
-  # "$*"
 	otel_trace_add_resource_scopespans_span $name \
 		$TRACE_ID \
 		${span_id} \
@@ -98,10 +93,6 @@ otel_trace_start_child_span() {
 	local end_time_unix_nano=$(get_epoch_now)
 	local exit_status=$?
 
-	# otel_trace_add_resourcespan_resource_attrib_string "service.namespace" "${name}"
-	# otel_trace_add_int_resource_attrib "service.foo" 100
-
-	# log_info "Passing ${name} ${TRACE_ID} ${span_id:0:16} ${parent_span_id} ${start_time_unix_nano} ${end_time_unix_nano} ${exit_status}"
 	otel_trace_add_resource_scopespans_span $name \
 		$TRACE_ID \
 		${span_id} \
