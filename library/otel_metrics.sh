@@ -46,7 +46,7 @@ function otel_metrics_push_gauge {
 	if [ ! -z ${custom_resource_attributes-} ]; then
     log_debug "Appending custom resource attributes"
 		for attr in "${custom_resource_attributes[@]}"; do
-			otel_trace_add_resourcespan_resource_attrib_string "${attr%%:*}" "${attr#*:}"
+			otel_metrics_add_resourcemetrics_resource_attrib_string "${attr%%:*}" "${attr#*:}"
 		done
 	fi
 
