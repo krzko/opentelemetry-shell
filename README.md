@@ -4,7 +4,7 @@
 
 But, underpinning these services is usually a script. `Bash` has been around for many decades now and other shells for even longer. This is usually the glue that ensures we can manage, deploy and perform many tasks around the services that we develop.
 
-Why not ensure that these scripts are observable and send back telemery data as well? This is the aim of [opentelemetry.sh](https://opentelemetry.io/), a set of [OpenTelemetry](https://opentelemetry.io/) functions for shells.
+Why not ensure that these scripts are observable and send back telemetry data as well? This is the aim of [opentelemetry.sh](https://opentelemetry.io/), a set of [OpenTelemetry](https://opentelemetry.io/) functions for shells.
 
 The functions utilise the [OpenTelemetry Protocol Specification (OTLP)](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/otlp.md) to send telemtry data back to any service that supports [OTLP (HTTP)](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/otlp.md#otlphttp). This is traditionally via an [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) or a vendor that supports this API specification.
 
@@ -20,7 +20,7 @@ Other versions and shells, your mileage may vary.
 
 Whilst all effort has been made to limit the use of external binaries from the standard `bash` built-in commands, this is the list of binaries required or this library:
 
-- `curl`: a tool for transfering data from or to a server
+- `curl`: a tool for transferring data from or to a server
 - `date`: display or set date and time
 - `hostname`: set or print name of current host system
 - `jq`: Command-line JSON processor
@@ -30,13 +30,13 @@ As a future enhancement all effort will be made to remove the need for as many e
 
 ## Supported Specifications
 
-Whilst the specifications [OpenTelemetry Protocol Specification (OTLP)](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/otlp.md) are extensive and too much to implementint in their entirety in a shell environment, a select few have been added, and will continue to expand as time goes on.
+Whilst the [OpenTelemetry Protocol Specification (OTLP)](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/otlp.md) specifications are too extensive to implement with-in a shell environment, a select few have been added, and will continue to expand as time goes on.
 
 The following features are supported.
 
 ### Logs
 
-Yet to be implenented.
+Yet to be implemented.
 
 ### Metrics
 
@@ -47,18 +47,18 @@ You can currently create the following metric types;
 
 ### Traces
 
-Tracing is supported with a rudimentory, parent/child relationship. The following attributes are being associated to each span:
+Tracing is supported with a rudimentary, parent/child relationship. The following attributes are being associated to each span:
 
 - Calling function, whether in main() or an outer function
-- Invoked command within script
-- Invoking line number wihtin script
+- Invoked command with-in script
+- Invoking line number with-in script
 - Script name
 - Line number
 - Custom attributes can be applied via an associative'esque array
 
 ## Howto
 
-The easiest way to get started is to clone the respository and then `.` source the functions you need. More [examples](#examples) follow after this basic howto.
+The easiest way to get started is to clone the repository and then `.` source the functions you need. More [examples](#examples) follow after this basic howto.
 
 ```sh
 git@github.com:krzko/opentelemetry-shell.git
@@ -98,14 +98,14 @@ A set of examples have been created to show case the ease of use, in creating tr
 
 ## Environment Variables
 
-The project aims to follow the standards of the the [OpenTelemetry Environment Variable Specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/sdk-environment-variables.md)
+The project aims to follow the standards of the [OpenTelemetry Environment Variable Specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/sdk-environment-variables.md)
 
-The following environment variables will be currentl used:
+The following environment variables will be currently used:
 
 **[General SDK Configuration](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/sdk-environment-variables.md#general-sdk-configuration)**
 
 <!-- - `OTEL_RESOURCE_ATTRIBUTES` - Key-value pairs to be used as resource attributes -->
-- `OTEL_SERVICE_NAME`: Sets the value of the `service.name` resource attribute
+<!-- - `OTEL_SERVICE_NAME`: Sets the value of the `service.name` resource attribute -->
 - `OTEL_LOG_LEVEL`: Log level used by the logger, `debug`. Unset variable to disable verbose logging
 
 **[Exporter Selection](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/sdk-environment-variables.md#exporter-selection)**
