@@ -14,5 +14,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://opentelemetry.io/docs/reference/specification/logs/overview/
-# https://opentelemetry.io/docs/reference/specification/logs/data-model/
+# Add resource attributes
+# Use custom_resource_attributes specifically, opioninated
+custom_resource_attributes=(
+  "environment:dev"
+  "team:ops"
+  "support:#ops-support"
+)
+
+# Service variables
+service_version="0.0.1-dev"
+
+# Import functions
+. ../library/log.sh
+. ../library/otel_trace.sh
+
+# Functions
+sleep_for() {
+  local sec=$1
+
+  log_info "Sleeping for ${sec} sec..."
+  sleep $sec
+}
+
+# Main
+otel_trace_start_parent_span sleep_for 1
+
+otel_trace_start_child_span sleep_for 2
+
+otel_trace_start_child_span sleep_for 1
+
+log_info "TraceId: ${TRACE_ID}"

@@ -17,31 +17,23 @@
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
 
 #######################################
-# Gets the Unix epoch timesyamp in nanoseconds
-# GLOBALS:
-#   EPOCHREALTIME
-# OUTPUTS:
-#   Write to stdout
+# A net client with a POST method
+# ARGUMENTS:
+#  data, the data payload
+#  url, the url to POST to
 #######################################
-get_epoch_now() {
-  local epoch=""
+net_client_post() {
+  local data=$1
+  local url=$2
 
-  if hash gdate 2>/dev/null; then
-    if [ -z ${OTEL_LOG_LEVEL-} ]; then
-      log_debug "Using gdate..."
-    fi
-    epoch="$(gdate +%s.%N)"
-  elif [ ${EPOCHREALTIME} ]; then
-    if [ -z ${OTEL_LOG_LEVEL-} ]; then
-      log_debug 'Using $EPOCHREALTIME...'
-    fi
-    epoch=$EPOCHREALTIME
+  if [[ "$OTEL_EXPORTER_OTEL_ENDPOINT" = https* ]]; then
+    log_debug "curl -ik -X POST -H 'Content-Type: application/json' -d ${data} ${url}"
+    curl -ik -X POST -H 'Content-Type: application/json' -d "${data}" "${url}" -o /dev/null -s
+  elif [[ "$OTEL_EXPORTER_OTEL_ENDPOINT" = http* ]]; then
+    log_debug "curl -X POST -H 'Content-Type: application/json' -d ${data} ${url}"
+    curl -X POST -H 'Content-Type: application/json' -d "${data}" "${url}" -o /dev/null -s
   else
-    if [ -z ${OTEL_LOG_LEVEL-} ]; then
-      log_debug "Using date..."
-    fi
-    epoch=$(date +%s%N)
+    log_fatal "OTEL_EXPORTER_OTEL_ENDPOINT needs to include a http:// or https:// prefix"
+    exit 1
   fi
-
-  echo "${epoch//.}"
 }

@@ -14,5 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://opentelemetry.io/docs/reference/specification/logs/overview/
-# https://opentelemetry.io/docs/reference/specification/logs/data-model/
+# console_exporter
+# otlp_exporeter
+
+# TODO: Create getter for exporters
+# otel_trace_get_exporter() {
+#   log_info ""
+# }
+
+# TODO: Create setter for exporters
+# otel_trace_set_exporter() {
+#   log_info ""
+# }

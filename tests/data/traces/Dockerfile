@@ -2,8 +2,9 @@ FROM alpine:3
 
 RUN apk add --update-cache bash curl jq
 
-COPY examples /root/opentelemetry-shell/examples/
-COPY library /root/opentelemetry-shell/library/
+COPY . /root/opentelemetry-shell
+
+RUN chmod +x /root/opentelemetry-shell/*.sh
 
 WORKDIR /root/opentelemetry-shell/examples
 

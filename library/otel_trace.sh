@@ -1,12 +1,24 @@
 #!/usr/bin/env bash
-#
-# AUTHORS, LICENSE and DOCUMENTATION
-#
+
+# Copyright 2022 Krzysztof Kowalski
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     https://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_init.sh"
 # source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_trace_exporter.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_trace_schema.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/net.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/time.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/uuid.sh"
 
@@ -52,20 +64,18 @@ otel_trace_start_parent_span() {
 	otel_trace_add_resourcespan_scopespans_spans_attrib_string "command" "$*"
 
   if [ -z ${OTEL_LOG_LEVEL-} ]; then
-		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
+		log_debug "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
+    net_client_post "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 	else
-    log_info "[$( caller )] $*" >&2
-    log_info "BASH_SOURCE: ${BASH_SOURCE[*]}"
-    log_info "BASH_LINENO: ${BASH_LINENO[*]}"
-    log_info "FUNCNAME: ${FUNCNAME[*]}"
+    log_debug "[$( caller )] $*" >&2
+    log_debug "BASH_SOURCE: ${BASH_SOURCE[*]}"
+    log_debug "BASH_LINENO: ${BASH_LINENO[*]}"
+    log_debug "FUNCNAME: ${FUNCNAME[*]}"
 
-		log_info "traceId: ${TRACE_ID}"
-		log_info "spanId: ${span_id}"
-		log_info "parentSpanId: ${PARENT_SPAN_ID}"
-		log_info "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
-		log_info "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_trace_resource_spans} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
+		log_debug "traceId: ${TRACE_ID}"
+		log_debug "spanId: ${span_id}"
+		log_debug "parentSpanId: ${PARENT_SPAN_ID}"
+    net_client_post "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 	fi
 
 	PARENT_SPAN_ID=${span_id}
@@ -106,20 +116,19 @@ otel_trace_start_child_span() {
   otel_trace_add_resourcespan_scopespans_spans_attrib_string "function" "${FUNCNAME[1]}()"
 
   if [ -z ${OTEL_LOG_LEVEL-} ]; then
-		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces" -o /dev/null -s
+    net_client_post "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 	else
-    log_info "[$( caller )] $*" >&2
-    log_info "BASH_SOURCE: ${BASH_SOURCE[*]}"
-    log_info "BASH_LINENO: ${BASH_LINENO[*]}"
-    log_info "FUNCNAME: ${FUNCNAME[*]}"
+    log_debug "[$( caller )] $*" >&2
+    log_debug "BASH_SOURCE: ${BASH_SOURCE[*]}"
+    log_debug "BASH_LINENO: ${BASH_LINENO[*]}"
+    log_debug "FUNCNAME: ${FUNCNAME[*]}"
 
-		log_info "traceId: ${TRACE_ID}"
-		log_info "spanId: ${span_id}"
-		log_info "parentSpanId: ${PARENT_SPAN_ID}"
-		log_info "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
-		log_info "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_trace_resource_spans} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
+		log_debug "traceId: ${TRACE_ID}"
+		log_debug "spanId: ${span_id}"
+		log_debug "parentSpanId: ${PARENT_SPAN_ID}"
+		log_debug "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
+		log_debug "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_trace_resource_spans} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
+    net_client_post "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
 	fi
 
 	PARENT_SPAN_ID=${span_id}

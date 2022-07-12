@@ -1,13 +1,25 @@
 #!/usr/bin/env bash
-#
-# AUTHORS, LICENSE and DOCUMENTATION
-#
+
+# Copyright 2022 Krzysztof Kowalski
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     https://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 # https://opentelemetry.io/docs/reference/specification/metrics/datamodel/
 
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_init.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_metrics_schema.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/net.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/time.sh"
 
 #######################################
@@ -55,20 +67,18 @@ otel_metrics_add_gauge $name \
   fi
 
   if [ -z ${OTEL_LOG_LEVEL-} ]; then
-		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_metrics_resource_metrics}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics" -o /dev/null -s
+    net_client_post "${otel_metrics_resource_metrics}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
 	else
-    log_info "[$( caller )] $*" >&2
-    log_info "BASH_SOURCE: ${BASH_SOURCE[*]}"
-    log_info "BASH_LINENO: ${BASH_LINENO[*]}"
-    log_info "FUNCNAME: ${FUNCNAME[*]}"
+    log_debug "[$( caller )] $*" >&2
+    log_debug "BASH_SOURCE: ${BASH_SOURCE[*]}"
+    log_debug "BASH_LINENO: ${BASH_LINENO[*]}"
+    log_debug "FUNCNAME: ${FUNCNAME[*]}"
 
-		log_info "name: ${name}"
-		log_info "key: ${key}"
-		log_info "value: ${value}"
-		log_info "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
-		log_info "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_metrics_resource_metrics} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_metrics_resource_metrics}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
+		log_debug "name: ${name}"
+		log_debug "key: ${key}"
+		log_debug "value: ${value}"
+		log_debug "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
+    net_client_post "${otel_metrics_resource_metrics}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
 	fi
 }
 
@@ -120,19 +130,16 @@ otel_metrics_add_gauge $name \
   fi
 
   if [ -z ${OTEL_LOG_LEVEL-} ]; then
-		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_metrics_resource_metrics}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics" -o /dev/null -s
+    net_client_post "${otel_metrics_resource_metrics}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
 	else
-    log_info "[$( caller )] $*" >&2
-    log_info "BASH_SOURCE: ${BASH_SOURCE[*]}"
-    log_info "BASH_LINENO: ${BASH_LINENO[*]}"
-    log_info "FUNCNAME: ${FUNCNAME[*]}"
+    log_debug "[$( caller )] $*" >&2
+    log_debug "BASH_SOURCE: ${BASH_SOURCE[*]}"
+    log_debug "BASH_LINENO: ${BASH_LINENO[*]}"
+    log_debug "FUNCNAME: ${FUNCNAME[*]}"
 
-		log_info "name: ${name}"
-		log_info "key: ${key}"
-		log_info "value: ${value}"
-		log_info "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
-		log_info "curl -ik -X POST -H 'Content-Type: application/json' -d ${otel_metrics_resource_metrics} ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
-		curl -ik -X POST -H 'Content-Type: application/json' -d "${otel_metrics_resource_metrics}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
+		log_debug "name: ${name}"
+		log_debug "key: ${key}"
+		log_debug "value: ${value}"
+    net_client_post "${otel_metrics_resource_metrics}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
 	fi
 }
