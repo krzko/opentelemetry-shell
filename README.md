@@ -64,7 +64,7 @@ A set of examples have been created to show case the ease of use, in creating tr
 
 ### Metrics Example
 
-Once cloned in your shell script you can simple `.` source as follows, assuming the script is a level down from `opentelemetry-shell/library/otel_trace.sh`:
+Simply, `.` source as follows `. opentelemetry-shell/library/otel_metrics.sh`:
 
 ```sh
 #!/usr/bin/env bash
@@ -89,7 +89,7 @@ otel_metrics_push_gauge "ko.wal.ski/brain/memory/used_bytes" \
 
 ### Trace Example
 
-Once cloned in your shell script you can simple `.` source as follows, assuming the script is a level down from `opentelemetry-shell/library/otel_trace.sh`:
+Simply, `.` source as follows `. opentelemetry-shell/library/otel_trace.sh`:
 
 ```sh
 #!/usr/bin/env bash
