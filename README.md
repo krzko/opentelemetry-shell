@@ -87,6 +87,14 @@ otel_metrics_push_gauge "ko.wal.ski/brain/memory/used_bytes" \
   int
 ```
 
+Yields the following:
+
+<img
+  src="/docs/images/readme/gcp_metrics_explorer.png"
+  alt="GCP Metrics Explorer"
+  title="GCP Metrics Explorer"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
+
 ### Trace Example
 
 Simply, `.` source as follows `. opentelemetry-shell/library/otel_trace.sh`:
@@ -116,6 +124,14 @@ otel_trace_start_child_span sleep_for 2
 
 log_info "TraceId: ${TRACE_ID}"
 ```
+
+Yields the following:
+
+<img
+  src="/docs/images/readme/gcp_cloud_tracing.png"
+  alt="GCP Cloud Tracing"
+  title="GCP Cloud Tracing"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
 
 ## Environment Variables
 
