@@ -73,8 +73,8 @@ Once cloned in your shell script you can simple `.` source as follows, assuming 
 service_version="0.0.1-dev"
 
 # Import functions
-. library/log.sh
-. library/otel_trace.sh
+. opentelemetry-shell/library/log.sh
+. opentelemetry-shell/library/otel_trace.sh
 
 # Functions
 sleep_for() {
