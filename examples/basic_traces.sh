@@ -15,8 +15,8 @@ resource_attributes_arr=(
 service_version="0.0.1-dev"
 
 # Import functions
-source ../library/log.sh
-source ../library/otel_trace.sh
+. ../library/log.sh
+. ../library/otel_trace.sh
 
 # Functions
 curl_httpbin() {

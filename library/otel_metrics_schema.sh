@@ -179,3 +179,103 @@ EOF
   otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].gauge.dataPoints += [$obj]" <<< $otel_metrics_resource_metrics)
 
 }
+
+#######################################
+# Adds a span object into .resourceSpans[].scopeSpans[].spans array
+# ARGUMENTS:
+#  name of calling command/function
+#  traceId, the top level Trace Id
+#  spanId, the current Span Id
+#  parentSpanId, the Id to asscociate the current span to
+#  startTimeUnixNano, starting epoc time of the span
+#  endTimeUnixNano, ending epoch time of the span
+#######################################
+otel_metrics_add_sum() {
+	local name=$1
+	local description=$2
+  local unit=$3
+
+  local obj=$(cat <<EOF
+{
+  "name": "${name}",
+  "description": "${description}",
+  "unit": "${unit}",
+  "sum": {
+    "dataPoints": []
+  }
+  "aggregationTemporality": "AGGREGATION_TEMPORALITY_CUMULATIVE",
+  "isMonotonic": true
+}
+EOF
+)
+
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[-1].metrics += [$obj]" <<< $otel_metrics_resource_metrics)
+
+}
+
+#######################################
+# Adds a span object into .resourceSpans[].scopeSpans[].spans array
+# ARGUMENTS:
+#  name of calling command/function
+#  traceId, the top level Trace Id
+#  spanId, the current Span Id
+#  parentSpanId, the Id to asscociate the current span to
+#  startTimeUnixNano, starting epoc time of the span
+#  endTimeUnixNano, ending epoch time of the span
+#######################################
+otel_metrics_add_sum_datapoint_double() {
+	local key=$1
+	local value=$2
+	local as_value=$3
+  local start_time_unix_nano=$4
+  local time_unix_nano=$(get_epoch_now)
+
+  local obj=$(cat <<EOF
+{
+  "startTimeUnixNano": "${start_time_unix_nano}",
+  "timeUnixNano": "${time_unix_nano}",
+  "asDouble": ${as_value}
+}
+EOF
+)
+
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.dataPoints += [$obj]" <<< $otel_metrics_resource_metrics)
+
+
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.aggregationTemporality = \"AGGREGATION_TEMPORALITY_CUMULATIVE\"" <<< $otel_metrics_resource_metrics)
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.isMonotonic = true" <<< $otel_metrics_resource_metrics)
+
+}
+
+#######################################
+# Adds a span object into .resourceSpans[].scopeSpans[].spans array
+# ARGUMENTS:
+#  name of calling command/function
+#  traceId, the top level Trace Id
+#  spanId, the current Span Id
+#  parentSpanId, the Id to asscociate the current span to
+#  startTimeUnixNano, starting epoc time of the span
+#  endTimeUnixNano, ending epoch time of the span
+#######################################
+otel_metrics_add_sum_datapoint_int() {
+	local key=$1
+	local value=$2
+	local as_value=$3
+  local start_time_unix_nano=$4
+  local time_unix_nano=$(get_epoch_now)
+
+  local obj=$(cat <<EOF
+{
+  "startTimeUnixNano": "${start_time_unix_nano}",
+  "timeUnixNano": "${time_unix_nano}",
+  "asInt": "${as_value}"
+}
+EOF
+)
+
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.dataPoints += [$obj]" <<< $otel_metrics_resource_metrics)
+
+
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.aggregationTemporality = \"AGGREGATION_TEMPORALITY_CUMULATIVE\"" <<< $otel_metrics_resource_metrics)
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.isMonotonic = true" <<< $otel_metrics_resource_metrics)
+}

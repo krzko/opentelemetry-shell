@@ -31,8 +31,8 @@ otel_metrics_push_gauge "ko.wal.ski/brain/memory/used_bytes" \
 otel_metrics_push_gauge "ko.wal.ski/person/uptime" \
   "Uptime in seconds." \
   "s" \
-  "memory_type" \
-  "evictable" \
+  "person_name" \
+  "${USER}" \
   88927.690019019 \
   double
 
@@ -47,7 +47,7 @@ if [ $? -eq 0 ]; then
     0 \
     int
 else
-  log_info "${0##*/} failed"
+  log_error "${0##*/} failed"
   otel_metrics_push_gauge "ko.wal.ski/script/is_failed" \
     "If the script was successful." \
     "By" \
