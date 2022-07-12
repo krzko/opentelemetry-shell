@@ -56,15 +56,40 @@ Tracing is supported with a rudimentary, parent/child relationship. The followin
 - Line number
 - Custom attributes can be applied via an associative'esque array
 
-## Howto
+## Examples
 
-The easiest way to get started is to clone the repository and then `.` source the functions you need. More [examples](#examples) follow after this basic howto.
+The easiest way to get started is to clone the repository and then `. opentelemetry-shell/library/otel_metrics.sh` or `. opentelemetry-shell/library/otel_trace.sh` to source the functions.
+
+A set of examples have been created to show case the ease of use, in creating traces and custom metrics. Please have a look at the [examples](https://github.com/krzko/opentelemetry-shell/tree/main/examples).
+
+### Metrics Example
+
+Once cloned in your shell script you can simple `.` source as follows, assuming the script is a level down from `opentelemetry-shell/library/otel_trace.sh`:
 
 ```sh
-git@github.com:krzko/opentelemetry-shell.git
+#!/usr/bin/env bash
+
+# Service variables
+service_version="0.0.1-dev"
+
+# Import functions
+. opentelemetry-shell/library/log.sh
+. opentelemetry-shell/library/otel_metrics.sh
+
+# Main
+log_info "Pushing metric ko.wal.ski/brain/memory/used_bytes..."
+otel_metrics_push_gauge "ko.wal.ski/brain/memory/used_bytes" \
+  "Memory usage in bytes." \
+  "By" \
+  "memory_type" \
+  "evictable" \
+  $RANDOM \
+  int
 ```
 
-Once cloned in your shell script you can simple `.` source as follows, assuming the script is a level down from `library`:
+### Trace Example
+
+Once cloned in your shell script you can simple `.` source as follows, assuming the script is a level down from `opentelemetry-shell/library/otel_trace.sh`:
 
 ```sh
 #!/usr/bin/env bash
@@ -91,10 +116,6 @@ otel_trace_start_child_span sleep_for 2
 
 log_info "TraceId: ${TRACE_ID}"
 ```
-
-## Examples
-
-A set of examples have been created to show case the ease of use, in creating traces and custom metrics. Please have a look at the [examples](https://github.com/krzko/opentelemetry-shell/tree/main/examples).
 
 ## Environment Variables
 
