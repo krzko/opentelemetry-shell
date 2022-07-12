@@ -39,20 +39,20 @@ otel_metrics_push_gauge "ko.wal.ski/person/uptime" \
 # Check script errorlevel (success) using gauge of type int, metric
 if [ $? -eq 0 ]; then
   log_info "${0##*/} ran successfully"
-  otel_metrics_push_gauge "ko.wal.ski/script/is_failed" \
+  otel_metrics_push_gauge "ko.wal.ski/${0##*/}/is_failed" \
     "If the script was successful." \
     "By" \
-    "script_name" \
-    "${0##*/}" \
+    "hostname" \
+    "${hostname}" \
     0 \
     int
 else
   log_error "${0##*/} failed"
-  otel_metrics_push_gauge "ko.wal.ski/script/is_failed" \
+  otel_metrics_push_gauge "ko.wal.ski/${0##*/}/is_failed" \
     "If the script was successful." \
     "By" \
-    "script_name" \
-    "${0##*/}" \
+    "hostname" \
+    "${hostname}" \
     1 \
     int
 fi

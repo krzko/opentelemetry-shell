@@ -31,6 +31,6 @@ otel_trace_start_parent_span curl_httpbin 200
 
 otel_trace_start_child_span curl_httpbin 201
 
-otel_trace_start_child_span curl_httpbin 202
+otel_trace_start_child_span curl_httpbin 203
 
 log_info "TraceId: ${TRACE_ID}"
