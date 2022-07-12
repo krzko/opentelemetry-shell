@@ -4,8 +4,8 @@
 #
 
 # Add resource attributes
-# Use resource_attributes_arr specifically, opioninated
-resource_attributes_arr=(
+# Use custom_resource_attributes specifically, opioninated
+custom_resource_attributes=(
   "environment:dev"
   "team:ops"
   "support:#ops-support"

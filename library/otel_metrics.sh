@@ -31,8 +31,8 @@ function otel_metrics_push_gauge {
 
   local time_unix_namo=$(get_epoch_now)
 
-  if [ $resource_attributes_arr ]; then
-		for attr in "${resource_attributes_arr[@]}"; do
+  if [ $custom_resource_attributes ]; then
+		for attr in "${custom_resource_attributes[@]}"; do
 			otel_metrics_add_resourcemetrics_resource_attrib_string "${attr%%:*}" "${attr#*:}"
 		done
 	fi
@@ -94,8 +94,8 @@ function otel_metrics_push_sum {
 
   local time_unix_namo=$(get_epoch_now)
 
-  if [ $resource_attributes_arr ]; then
-		for attr in "${resource_attributes_arr[@]}"; do
+  if [ $custom_resource_attributes ]; then
+		for attr in "${custom_resource_attributes[@]}"; do
 			otel_metrics_add_resourcemetrics_resource_attrib_string "${attr%%:*}" "${attr#*:}"
 		done
 	fi
