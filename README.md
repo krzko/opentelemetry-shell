@@ -87,7 +87,7 @@ otel_metrics_push_gauge "ko.wal.ski/brain/memory/used_bytes" \
   int
 ```
 
-Yields the following example;
+Yields the following:
 
 <img
   src="/docs/images/readme/gcp_metrics_explorer.png"
@@ -125,7 +125,7 @@ otel_trace_start_child_span sleep_for 2
 log_info "TraceId: ${TRACE_ID}"
 ```
 
-Yields the following example;
+Yields the following:
 
 <img
   src="/docs/images/readme/gcp_cloud_tracing.png"
