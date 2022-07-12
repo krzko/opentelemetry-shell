@@ -118,10 +118,10 @@ EOF
 #  startTimeUnixNano, starting epoc time of the span
 #  endTimeUnixNano, ending epoch time of the span
 #######################################
-otel_metrics_add_gauge_datapoint() {
+otel_metrics_add_gauge_datapoint_int() {
 	local key=$1
 	local value=$2
-	local as_int_value=$3
+	local as_value=$3
   local time_unix_nano=$(get_epoch_now)
 
   local obj=$(cat <<EOF
@@ -135,7 +135,43 @@ otel_metrics_add_gauge_datapoint() {
     }
   ],
   "timeUnixNano": "${time_unix_nano}",
-  "asInt": "${as_int_value}"
+  "asInt": "${as_value}"
+}
+EOF
+)
+
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].gauge.dataPoints += [$obj]" <<< $otel_metrics_resource_metrics)
+
+}
+
+#######################################
+# Adds a span object into .resourceSpans[].scopeSpans[].spans array
+# ARGUMENTS:
+#  name of calling command/function
+#  traceId, the top level Trace Id
+#  spanId, the current Span Id
+#  parentSpanId, the Id to asscociate the current span to
+#  startTimeUnixNano, starting epoc time of the span
+#  endTimeUnixNano, ending epoch time of the span
+#######################################
+otel_metrics_add_gauge_datapoint_double() {
+	local key=$1
+	local value=$2
+	local as_value=$3
+  local time_unix_nano=$(get_epoch_now)
+
+  local obj=$(cat <<EOF
+{
+  "attributes": [
+    {
+      "key": "${key}",
+      "value": {
+        "stringValue": "${value}"
+      }
+    }
+  ],
+  "timeUnixNano": "${time_unix_nano}",
+  "asDouble": ${as_value}
 }
 EOF
 )

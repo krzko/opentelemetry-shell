@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+#
+# AUTHORS, LICENSE and DOCUMENTATION
+#
+
+# https://opentelemetry.io/docs/reference/specification/metrics/datamodel/
 
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_init.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_metrics_schema.sh"
@@ -11,7 +16,8 @@ function otel_metrics_push_gauge {
   local unit=$3
 	local key=$4
 	local value=$5
-	local as_int_value=$6
+	local as_value=$6
+  local type=$7
 
   local time_unix_namo=$(get_epoch_now)
 
@@ -21,13 +27,22 @@ function otel_metrics_push_gauge {
 		done
 	fi
 
-  otel_metrics_add_gauge $name \
+otel_metrics_add_gauge $name \
 		$description \
 		$unit
 
-  otel_metrics_add_gauge_datapoint $key \
-    $value \
-    $as_int_value
+  if [[ ${type} == "double" ]]; then
+    otel_metrics_add_gauge_datapoint_double $key \
+      $value \
+      $as_value
+  elif [[ ${type} == "int" ]]; then
+    otel_metrics_add_gauge_datapoint_int $key \
+      $value \
+      $as_value
+  else
+    log_error "'as_value' arg needs to be double|int"
+    exit 1
+  fi
 
   if [ -z ${OTEL_LOG_LEVEL-} ]; then
 		log_info "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
