@@ -47,7 +47,8 @@ otel_trace_start_parent_span() {
 	local end_time_unix_nano=$(get_epoch_now)
 	local exit_status=$?
 
-	if [ $custom_resource_attributes ]; then
+	if [ ! -z ${custom_resource_attributes-} ]; then
+    log_debug "Appending custom resource attributes"
 		for attr in "${custom_resource_attributes[@]}"; do
 			otel_trace_add_resourcespan_resource_attrib_string "${attr%%:*}" "${attr#*:}"
 		done
