@@ -1,0 +1,61 @@
+version: '3.8'
+
+# Used for testing
+
+services:
+  otelcol:
+    container_name: otelcol
+    image: otel/opentelemetry-collector:0.54.0
+    command: ["--config=/etc/otelcol/config.yaml"]
+    ports:
+      - "4318:4318"
+    volumes:
+      - ./tests/otelcol/config.yaml:/etc/otelcol/config.yaml
+
+  otel-sh-metrics-gauge:
+    container_name: otel-sh-metrics-gauge
+    build:
+      context: .
+      dockerfile: Dockerfile.alpine
+    entrypoint: ["/usr/bin/env", "bash", "-c"]
+    command: ./basic_metrics_gauge.sh
+    environment:
+      - OTEL_EXPORTER_OTEL_ENDPOINT=http://otelcol:4318
+      # - OTEL_LOG_LEVEL=debug
+    depends_on:
+      otelcol:
+        condition: service_started
+    links:
+      - "otelcol:otelcol"
+
+  otel-sh-metrics-sum:
+    container_name: otel-sh-metrics-sum
+    build:
+      context: .
+      dockerfile: Dockerfile.alpine
+    entrypoint: ["/usr/bin/env", "bash", "-c"]
+    command: ./basic_metrics_sum.sh
+    environment:
+      - OTEL_EXPORTER_OTEL_ENDPOINT=http://otelcol:4318
+      # - OTEL_LOG_LEVEL=debug
+    depends_on:
+      otelcol:
+        condition: service_started
+    links:
+      - "otelcol:otelcol"
+
+  otel-sh-trace:
+    container_name: otel-sh-trace
+    build:
+      context: .
+      dockerfile: Dockerfile.alpine
+    entrypoint: ["/usr/bin/env", "bash", "-c"]
+    command: ./basic_trace_sleep.sh
+    environment:
+      - OTEL_EXPORTER_OTEL_ENDPOINT=http://otelcol:4318
+      # - OTEL_LOG_LEVEL=debug
+    depends_on:
+      otelcol:
+        condition: service_started
+    links:
+      - "otelcol:otelcol"
