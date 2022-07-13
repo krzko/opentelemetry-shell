@@ -27,7 +27,7 @@ service_version="0.0.1-dev"
 
 # Import functions
 . ../library/log.sh
-. ../library/otel_trace.sh
+. ../library/otel_traces.sh
 
 # Functions
 curl_httpbin() {

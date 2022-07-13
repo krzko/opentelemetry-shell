@@ -58,7 +58,7 @@ Tracing is supported with a rudimentary, parent/child relationship. The followin
 
 ## Examples
 
-The easiest way to get started is to clone the repository and then `. opentelemetry-shell/library/otel_metrics.sh` or `. opentelemetry-shell/library/otel_trace.sh` to source the functions.
+The easiest way to get started is to clone the repository and then `. opentelemetry-shell/library/otel_metrics.sh` or `. opentelemetry-shell/library/otel_traces.sh` to source the functions.
 
 A set of examples have been created to show case the ease of use, in creating traces and custom metrics. Please have a look at the [examples](https://github.com/krzko/opentelemetry-shell/tree/main/examples).
 
@@ -103,7 +103,7 @@ Yields the following:
 
 ### Trace Example
 
-Simply, `.` source as follows `. opentelemetry-shell/library/otel_trace.sh`:
+Simply, `.` source as follows `. opentelemetry-shell/library/otel_traces.sh`:
 
 ```sh
 #!/usr/bin/env bash
@@ -113,7 +113,7 @@ service_version="0.0.1-dev"
 
 # Import functions
 . opentelemetry-shell/library/log.sh
-. opentelemetry-shell/library/otel_trace.sh
+. opentelemetry-shell/library/otel_traces.sh
 
 # Functions
 sleep_for() {

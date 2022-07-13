@@ -16,7 +16,7 @@
 
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_init.sh"
 # source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_trace_exporter.sh"
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_trace_schema.sh"
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_traces_schema.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/net.sh"
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/time.sh"
