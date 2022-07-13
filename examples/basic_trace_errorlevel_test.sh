@@ -14,24 +14,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -euo pipefail
+# Add resource attributes
+# Use custom_resource_attributes specifically, opioninated
+custom_resource_attributes=(
+  "environment:dev"
+  "team:ops"
+  "support:#ops-support"
+)
 
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
+# Service variables
+service_version="0.0.1-dev"
 
-export os_version=$(uname -a)
-export hostname=$(hostname)
+# Import functions
+. ../library/log.sh
+. ../library/otel_trace.sh
 
-export telemetry_sdk_name="opentelemetry.sh"
-export telemetry_sdk_lang="bash"
-export telemetry_sdk_ver="0.0.1"
+# Functions
+good() {
+  local sec=$1
 
-log_info "Initialising OpenTelemetry Shell v${telemetry_sdk_ver}"
+  log_info "Sleeping for ${sec} sec..."
+  sleep $sec
+}
 
-# OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
-# OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
-# OTEL_EXPORTER_OTLP_LOGS_ENDPOINT
+bad() {
+  local sec=$1
 
-if [ -z ${OTEL_EXPORTER_OTEL_ENDPOINT-} ]; then
-  log_error "OTEL_EXPORTER_OTEL_ENDPOINT not exported"
-  exit 1
-fi
+  log_info "Sleeping for ${sec} sec..."
+  sleeeeeep $sec
+}
+
+# Main
+otel_trace_start_parent_span good 1
+
+otel_trace_start_child_span bad 2
+
+log_info "TraceId: ${TRACE_ID}"
