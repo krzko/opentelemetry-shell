@@ -25,13 +25,30 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
 net_client_post() {
   local data=$1
   local url=$2
+  local response=""
+
+  # local fail=$3 # --fail
+  # local connect_timeout=$4 # --connect-timeout 3
+  # local retry=$5 # --retry 0
 
   if [[ "$OTEL_EXPORTER_OTEL_ENDPOINT" = https* ]]; then
     log_debug "curl -ik -X POST -H 'Content-Type: application/json' -d ${data} ${url}"
-    curl -ik -X POST -H 'Content-Type: application/json' -d "${data}" "${url}" -o /dev/null -s
+    set +e
+    response=$(curl --fail -ik -X POST -H 'Content-Type: application/json' -d "${data}" "${url}" -o /dev/null -s -w "%{http_code}")
+    if [ $? -eq 0 ]; then
+      log_info "POST ${response} ${url}"
+    else
+      log_error "The requested URL returned an error: ${url}"
+    fi
   elif [[ "$OTEL_EXPORTER_OTEL_ENDPOINT" = http* ]]; then
     log_debug "curl -X POST -H 'Content-Type: application/json' -d ${data} ${url}"
-    curl -X POST -H 'Content-Type: application/json' -d "${data}" "${url}" -o /dev/null -s
+    set +e
+    response=$(curl --fail -X POST -H 'Content-Type: application/json' -d "${data}" "${url}" -o /dev/null -s -w "%{http_code}")
+    if [ $? -eq 0 ]; then
+      log_info "POST ${response} ${url}"
+    else
+      log_error "The requested URL returned an error: ${url}"
+    fi
   else
     log_fatal "OTEL_EXPORTER_OTEL_ENDPOINT needs to include a http:// or https:// prefix"
     exit 1
