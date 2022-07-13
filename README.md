@@ -62,6 +62,12 @@ The easiest way to get started is to clone the repository and then `. openteleme
 
 A set of examples have been created to show case the ease of use, in creating traces and custom metrics. Please have a look at the [examples](https://github.com/krzko/opentelemetry-shell/tree/main/examples).
 
+Firstly, define your exporter endpoint, before testing any of the examples, both `http` and `https` prefixes are supported:
+
+```sh
+export OTEL_EXPORTER_OTEL_ENDPOINT="http://localhost:4318"
+```
+
 ### Metrics Example
 
 Simply, `.` source as follows `. opentelemetry-shell/library/otel_metrics.sh`:
