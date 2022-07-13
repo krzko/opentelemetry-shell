@@ -107,7 +107,7 @@ otel_trace_add_resource_scopespans_span() {
   local end_time_unix_nano=$6
 	local status_code=$7
 
-	if [[ $status_code -eq 0 ]]; then
+	if [ $status_code -eq 0 ]; then
 		status_code="STATUS_CODE_OK"
 	else
 		status_code="STATUS_CODE_ERROR"
