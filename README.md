@@ -4,7 +4,7 @@
 
 But, underpinning these services is usually a script. `Bash` has been around for many decades now and other shells for even longer. This is usually the glue that ensures we can manage, deploy and perform many tasks around the services that we develop.
 
-Why not ensure that these scripts are observable and send back telemetry data as well? This is the aim of [opentelemetry.sh](https://opentelemetry.io/), a set of [OpenTelemetry](https://opentelemetry.io/) functions for shells.
+Why not ensure that these scripts are observable and send back telemetry data as well? This is the aim of [opentelemetry.sh](#), a set of [OpenTelemetry](https://opentelemetry.io/) functions for shells.
 
 The functions utilise the [OpenTelemetry Protocol Specification (OTLP)](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/otlp.md) to send telemtry data back to any service that supports [OTLP (HTTP)](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/otlp.md#otlphttp). This is traditionally via an [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) or a vendor that supports this API specification.
 
