@@ -9,7 +9,7 @@ env:
 
 jobs:
   opentelemetry-shell:
-    runs-on: [ ubuntu ]
+    runs-on: [ubuntu-latest]
     outputs:
       OTEL_TRACE_ID: ${{ steps.init-otel-sh.outputs.OTEL_TRACE_ID }}
     steps:
