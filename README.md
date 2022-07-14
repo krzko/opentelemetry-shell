@@ -161,4 +161,4 @@ The following environment variables will be currently used:
 
 **OpenTelemetry Shell Specific**
 
-- `OTEL_SH_TRACE_ID`: Set a pre-defined `traceId`. Defaut behaviour is the functions will create this value for you automatically.
+- `OTEL_SH_TRACE_ID`: Set a pre-defined `traceId`. Defaut behaviour is the functions will create this value for you automatically
