@@ -1,0 +1,73 @@
+name: github-actions-strategy-matrix
+on:
+  push:
+
+env:
+  OTEL_EXPORTER_OTEL_ENDPOINT: https://otelcol.domain
+  # OTEL_LOG_LEVEL: debug
+  OTEL_SH_LIB_PATH: opentelemetry-shell/library
+
+jobs:
+  opentelemetry-shell:
+    runs-on: [ ubuntu ]
+    outputs:
+      OTEL_TRACE_ID: ${{ steps.init-otel-sh.outputs.OTEL_TRACE_ID }}
+    steps:
+      - name: ✨ Checkout krzko/opentelemetry-shell
+        uses: actions/checkout@v2
+        with:
+          repository: krzko/opentelemetry-shell
+          path: './opentelemetry-shell'
+      - name: 🚦 Initialise OpenTelemetry Shell
+        id: init-otel-sh
+        run: |
+          . opentelemetry-shell/library/otel_traces.sh
+          trace_id=$(generate_uuid 16)
+          echo "::set-output name=OTEL_TRACE_ID::${trace_id}"
+          log_info "TraceId: ${trace_id}"
+
+  awesome-job:
+    needs:
+      - opentelemetry-shell
+    runs-on: [ubuntu-latest]
+    strategy:
+      matrix:
+        service: [foo, bar]
+    env:
+      OTEL_TRACE_ID: ${{ needs.opentelemetry-shell.outputs.OTEL_TRACE_ID }}
+    steps:
+      - name: ✨ Checkout
+        uses: actions/checkout@v2
+      - name: ✨ Checkout krzko/opentelemetry-shell
+        uses: actions/checkout@v2
+        with:
+          repository: krzko/opentelemetry-shell
+          path: './opentelemetry-shell'
+      - name: ⛏ Login (GCR)
+        run: |
+          . opentelemetry-shell/library/otel_traces.sh
+          otel_trace_start_parent_span echo ${{ matrix.service }}
+          otel_trace_start_child_span sleep 1
+          otel_trace_start_child_span sleep 2
+      - name: ✅ Push success metric
+        if: success()
+        run: |
+          . opentelemetry-shell/library/otel_metrics.sh
+          otel_metrics_push_gauge "ko.wal.ski/${GITHUB_REPOSITORY}/workflow/is_failed" \
+            "If the workflow was successful." \
+            "By" \
+            "workflow_name" \
+            "${GITHUB_WORKFLOW}" \
+            0 \
+            int
+      - name: ❌ Push failure metric
+        if: failure()
+        run: |
+          . opentelemetry-shell/library/otel_metrics.sh
+          otel_metrics_push_gauge "ko.wal.ski/${GITHUB_REPOSITORY}/workflow/is_failed" \
+            "If the workflow was successful." \
+            "By" \
+            "workflow_name" \
+            "${GITHUB_WORKFLOW}" \
+            1 \
+            int
