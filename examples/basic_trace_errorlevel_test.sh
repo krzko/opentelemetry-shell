@@ -52,4 +52,4 @@ otel_trace_start_parent_span good 1
 
 otel_trace_start_child_span bad 2
 
-log_info "TraceId: ${TRACE_ID}"
+log_info "TraceId: ${OTEL_TRACE_ID}"
