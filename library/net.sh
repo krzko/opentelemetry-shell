@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
+. "${OTEL_SH_LIB_PATH}/log.sh"
 
 #######################################
 # A net client with a POST method
