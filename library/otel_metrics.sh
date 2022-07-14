@@ -16,11 +16,11 @@
 
 # https://opentelemetry.io/docs/reference/specification/metrics/datamodel/
 
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_init.sh"
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_metrics_schema.sh"
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/net.sh"
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/time.sh"
+. "${OTEL_SH_LIB_PATH}/otel_init.sh"
+. "${OTEL_SH_LIB_PATH}/otel_metrics_schema.sh"
+. "${OTEL_SH_LIB_PATH}/log.sh"
+. "${OTEL_SH_LIB_PATH}/net.sh"
+. "${OTEL_SH_LIB_PATH}/time.sh"
 
 #######################################
 # Adds a span object into .resourceSpans[].scopeSpans[].spans array

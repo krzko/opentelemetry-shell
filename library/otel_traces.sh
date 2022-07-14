@@ -14,13 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_init.sh"
-# source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_trace_exporter.sh"
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/otel_traces_schema.sh"
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/net.sh"
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/time.sh"
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/uuid.sh"
+. "${OTEL_SH_LIB_PATH}/otel_init.sh"
+. "${OTEL_SH_LIB_PATH}/otel_traces_schema.sh"
+. "${OTEL_SH_LIB_PATH}/log.sh"
+. "${OTEL_SH_LIB_PATH}/net.sh"
+. "${OTEL_SH_LIB_PATH}/time.sh"
+. "${OTEL_SH_LIB_PATH}/uuid.sh"
 
 export TRACE_ID=$(generate_uuid 16)
 export PARENT_SPAN_ID=""

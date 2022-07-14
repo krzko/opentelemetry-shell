@@ -16,7 +16,11 @@
 
 set -euo pipefail
 
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/log.sh"
+if [ ! -z ${OTEL_SH_LIB_PATH-} ]; then
+  export OTEL_SH_LIB_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+fi
+
+. "${OTEL_SH_LIB_PATH}/log.sh"
 
 export os_version=$(uname -a)
 export hostname=$(hostname)

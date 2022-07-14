@@ -25,9 +25,12 @@ custom_resource_attributes=(
 # Service variables
 service_version="0.0.1-dev"
 
+# Export library path
+export OTEL_SH_LIB_PATH="../library"
+
 # Import functions
-. ../library/log.sh
-. ../library/otel_traces.sh
+. "${OTEL_SH_LIB_PATH}/log.sh"
+. "${OTEL_SH_LIB_PATH}/otel_traces.sh"
 
 # Functions
 sleep_for() {
