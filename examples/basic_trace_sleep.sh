@@ -47,4 +47,4 @@ otel_trace_start_child_span sleep_for 2
 
 otel_trace_start_child_span sleep_for 1
 
-log_info "TraceId: ${TRACE_ID}"
+log_info "TraceId: ${OTEL_TRACE_ID}"

@@ -100,7 +100,7 @@ otel_trace_add_resource_scopespans_span() {
 	# log_info "Using ${1} ${2} ${3} ${4} ${5} ${6} ${7}"
 
 	local name=$1
-	local trace_id=$2
+	local OTEL_TRACE_ID=$2
   local span_id=$3
 	local parent_span_id=$4
 	local start_time_unix_nano=$5
@@ -115,7 +115,7 @@ otel_trace_add_resource_scopespans_span() {
 
     local span=$(cat <<EOF
 {
-  "traceId": "${trace_id}",
+  "traceId": "${OTEL_TRACE_ID}",
   "spanId": "${span_id}",
   "parentSpanId": "${parent_span_id}",
   "name": "${name}",

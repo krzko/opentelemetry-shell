@@ -21,13 +21,16 @@
 . "${OTEL_SH_LIB_PATH}/time.sh"
 . "${OTEL_SH_LIB_PATH}/uuid.sh"
 
-export TRACE_ID=$(generate_uuid 16)
+if [ ! -z ${OTEL_TRACE_ID-} ]; then
+  export OTEL_TRACE_ID=$(generate_uuid 16)
+fi
+
 export PARENT_SPAN_ID=""
 
 #######################################
-# Starts a new parent trace bound to the TRACE_ID
+# Starts a new parent trace bound to the OTEL_TRACE_ID
 # GLOBALS:
-#   TRACE_ID
+#   OTEL_TRACE_ID
 #   PARENT_SPAN_ID
 # ARGUMENTS:
 #   name of calling command/function
@@ -56,7 +59,7 @@ otel_trace_start_parent_span() {
 	fi
 
 	otel_trace_add_resource_scopespans_span $name \
-		$TRACE_ID \
+		$OTEL_TRACE_ID \
 		${span_id} \
 		"" \
 		$start_time_unix_nano \
@@ -78,7 +81,7 @@ otel_trace_start_parent_span() {
     log_debug "BASH_LINENO: ${BASH_LINENO[*]}"
     log_debug "FUNCNAME: ${FUNCNAME[*]}"
 
-		log_debug "traceId: ${TRACE_ID}"
+		log_debug "traceId: ${OTEL_TRACE_ID}"
 		log_debug "spanId: ${span_id}"
 		log_debug "parentSpanId: ${PARENT_SPAN_ID}"
     net_client_post "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
@@ -93,9 +96,9 @@ otel_trace_start_parent_span() {
 }
 
 #######################################
-# Starts a new child trace bound to the TRACE_ID and PARENT_SPAN_ID
+# Starts a new child trace bound to the OTEL_TRACE_ID and PARENT_SPAN_ID
 # GLOBALS:
-#   TRACE_ID
+#   OTEL_TRACE_ID
 #   PARENT_SPAN_ID
 # ARGUMENTS:
 #   name of calling command/function
@@ -124,7 +127,7 @@ otel_trace_start_child_span() {
 	fi
 
 	otel_trace_add_resource_scopespans_span $name \
-		$TRACE_ID \
+		$OTEL_TRACE_ID \
 		${span_id} \
 		$PARENT_SPAN_ID \
 		$start_time_unix_nano \
@@ -145,7 +148,7 @@ otel_trace_start_child_span() {
     log_debug "BASH_LINENO: ${BASH_LINENO[*]}"
     log_debug "FUNCNAME: ${FUNCNAME[*]}"
 
-		log_debug "traceId: ${TRACE_ID}"
+		log_debug "traceId: ${OTEL_TRACE_ID}"
 		log_debug "spanId: ${span_id}"
 		log_debug "parentSpanId: ${PARENT_SPAN_ID}"
 		log_debug "OTEL_EXPORTER_OTEL_ENDPOINT=${OTEL_EXPORTER_OTEL_ENDPOINT}"
