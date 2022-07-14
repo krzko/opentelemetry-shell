@@ -21,7 +21,7 @@
 . "${OTEL_SH_LIB_PATH}/time.sh"
 . "${OTEL_SH_LIB_PATH}/uuid.sh"
 
-if [ ! -z ${OTEL_TRACE_ID-} ]; then
+if [ -z ${OTEL_TRACE_ID-} ]; then
   export OTEL_TRACE_ID=$(generate_uuid 16)
 fi
 
