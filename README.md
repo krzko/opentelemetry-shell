@@ -54,7 +54,8 @@ Tracing is supported with a rudimentary, parent/child relationship. The followin
 - Invoking line number with-in script
 - Script name
 - Line number
-- Custom attributes can be applied via an associative'esque array
+- Ability to add user specified resource attributes
+- Detectors, supports Github Actions workflows
 
 ## Examples
 
