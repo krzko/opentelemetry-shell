@@ -76,9 +76,6 @@ Simply, `.` source as follows `. opentelemetry-shell/library/otel_metrics.sh`:
 ```sh
 #!/usr/bin/env bash
 
-# Service variables
-service_version="0.0.1-dev"
-
 # Import functions
 . opentelemetry-shell/library/otel_metrics.sh
 
@@ -107,9 +104,6 @@ Simply, `.` source as follows `. opentelemetry-shell/library/otel_traces.sh`:
 
 ```sh
 #!/usr/bin/env bash
-
-# Service variables
-service_version="0.0.1-dev"
 
 # Import functions
 . opentelemetry-shell/library/otel_traces.sh
