@@ -54,7 +54,8 @@ Tracing is supported with a rudimentary, parent/child relationship. The followin
 - Invoking line number with-in script
 - Script name
 - Line number
-- Custom attributes can be applied via an associative'esque array
+- Ability to add user specified resource attributes
+- Detectors, supports Github Actions workflows
 
 ## Examples
 
@@ -75,9 +76,6 @@ Simply, `.` source as follows `. opentelemetry-shell/library/otel_metrics.sh`:
 
 ```sh
 #!/usr/bin/env bash
-
-# Service variables
-service_version="0.0.1-dev"
 
 # Import functions
 . opentelemetry-shell/library/otel_metrics.sh
@@ -107,9 +105,6 @@ Simply, `.` source as follows `. opentelemetry-shell/library/otel_traces.sh`:
 
 ```sh
 #!/usr/bin/env bash
-
-# Service variables
-service_version="0.0.1-dev"
 
 # Import functions
 . opentelemetry-shell/library/otel_traces.sh

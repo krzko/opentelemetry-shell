@@ -14,12 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-. "${OTEL_SH_LIB_PATH}/otel_init.sh"
-. "${OTEL_SH_LIB_PATH}/otel_traces_schema.sh"
 . "${OTEL_SH_LIB_PATH}/log.sh"
 . "${OTEL_SH_LIB_PATH}/net.sh"
 . "${OTEL_SH_LIB_PATH}/time.sh"
 . "${OTEL_SH_LIB_PATH}/uuid.sh"
+
+. "${OTEL_SH_LIB_PATH}/otel_init.sh"
+. "${OTEL_SH_LIB_PATH}/otel_traces_schema.sh"
+. "${OTEL_SH_LIB_PATH}/otel_traces_detector.sh"
 
 if [ -z ${OTEL_TRACE_ID-} ]; then
   export OTEL_TRACE_ID=$(generate_uuid 16)
@@ -54,6 +56,13 @@ otel_trace_start_parent_span() {
 	if [ ! -z ${custom_resource_attributes-} ]; then
     log_debug "Appending custom resource attributes"
 		for attr in "${custom_resource_attributes[@]}"; do
+			otel_trace_add_resourcespan_resource_attrib_string "${attr%%:*}" "${attr#*:}"
+		done
+	fi
+
+  if [ ! -z ${detector_resource_attributes-} ]; then
+    log_debug "Appending detector resource attributes"
+		for attr in "${detector_resource_attributes[@]}"; do
 			otel_trace_add_resourcespan_resource_attrib_string "${attr%%:*}" "${attr#*:}"
 		done
 	fi
@@ -122,6 +131,13 @@ otel_trace_start_child_span() {
 	if [ ! -z ${custom_resource_attributes-} ]; then
     log_debug "Appending custom resource attributes"
 		for attr in "${custom_resource_attributes[@]}"; do
+			otel_trace_add_resourcespan_resource_attrib_string "${attr%%:*}" "${attr#*:}"
+		done
+	fi
+
+  if [ ! -z ${detector_resource_attributes-} ]; then
+    log_debug "Appending detector resource attributes"
+		for attr in "${detector_resource_attributes[@]}"; do
 			otel_trace_add_resourcespan_resource_attrib_string "${attr%%:*}" "${attr#*:}"
 		done
 	fi

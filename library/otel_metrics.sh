@@ -16,11 +16,12 @@
 
 # https://opentelemetry.io/docs/reference/specification/metrics/datamodel/
 
-. "${OTEL_SH_LIB_PATH}/otel_init.sh"
-. "${OTEL_SH_LIB_PATH}/otel_metrics_schema.sh"
 . "${OTEL_SH_LIB_PATH}/log.sh"
 . "${OTEL_SH_LIB_PATH}/net.sh"
 . "${OTEL_SH_LIB_PATH}/time.sh"
+
+. "${OTEL_SH_LIB_PATH}/otel_init.sh"
+. "${OTEL_SH_LIB_PATH}/otel_metrics_schema.sh"
 
 #######################################
 # Adds a span object into .resourceSpans[].scopeSpans[].spans array
