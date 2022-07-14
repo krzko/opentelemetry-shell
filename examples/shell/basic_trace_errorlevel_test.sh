@@ -26,7 +26,7 @@ custom_resource_attributes=(
 service_version="0.0.1-dev"
 
 # Export library path
-export OTEL_SH_LIB_PATH="../library"
+export OTEL_SH_LIB_PATH="../../library"
 
 # Import functions
 . "${OTEL_SH_LIB_PATH}/otel_traces.sh"
