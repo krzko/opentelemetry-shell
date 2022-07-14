@@ -80,7 +80,6 @@ Simply, `.` source as follows `. opentelemetry-shell/library/otel_metrics.sh`:
 service_version="0.0.1-dev"
 
 # Import functions
-. opentelemetry-shell/library/log.sh
 . opentelemetry-shell/library/otel_metrics.sh
 
 # Main
@@ -113,7 +112,6 @@ Simply, `.` source as follows `. opentelemetry-shell/library/otel_traces.sh`:
 service_version="0.0.1-dev"
 
 # Import functions
-. opentelemetry-shell/library/log.sh
 . opentelemetry-shell/library/otel_traces.sh
 
 # Functions

@@ -29,7 +29,6 @@ service_version="0.0.1-dev"
 export OTEL_SH_LIB_PATH="../library"
 
 # Import functions
-. "${OTEL_SH_LIB_PATH}/log.sh"
 . "${OTEL_SH_LIB_PATH}/otel_metrics.sh"
 
 # Sum of type double, metric
