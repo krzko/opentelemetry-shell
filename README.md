@@ -158,3 +158,7 @@ The following environment variables will be currently used:
 - `OTEL_METRICS_EXPORTER`: Metrics exporter to be used
 - `OTEL_LOGS_EXPORTER`: Logs exporter to be used -->
 - `OTEL_EXPORTER_OTEL_ENDPOINT`: Exporter endpoint
+
+**OpenTelemetry Shell Specific**
+
+- `OTEL_SH_TRACE_ID`: Set a pre-defined `traceId`. Defaut behaviour is the functions will create this value for you automatically.
