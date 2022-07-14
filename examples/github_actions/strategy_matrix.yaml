@@ -43,7 +43,7 @@ jobs:
         with:
           repository: krzko/opentelemetry-shell
           path: './opentelemetry-shell'
-      - name: ⛏ Login (GCR)
+      - name: ⛏ Work
         run: |
           . opentelemetry-shell/library/otel_traces.sh
           otel_trace_start_parent_span echo ${{ matrix.service }}
