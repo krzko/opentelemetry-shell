@@ -27,6 +27,6 @@ if [ ${DEPLOYMENT_ID-} ]; then
 fi
 
 # Jenkins
-if [ ${JENKINS_URL-} ]; then
+if [ ${CI-} ] && [ ${JENKINS_URL-} ]; then
   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_jenkins.sh"
 fi

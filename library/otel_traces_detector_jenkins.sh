@@ -19,11 +19,15 @@
 log_info "Detected, Jenkins pipeline"
 
 detector_resource_attributes=(
+  "jenkins.branch.name:${BRANCH_NAME}"
   "jenkins.build.id:${BUILD_ID}"
   "jenkins.build.number:${BUILD_NUMBER}"
   "jenkins.build.tag:${BUILD_TAG}"
   "jenkins.build.url:${BUILD_URL}"
+  "jenkins.change.author:${CHANGE_AUTHOR}"
   "jenkins.executor.number:${EXECUTOR_NUMBER}"
+  "jenkins.git.branch:${GIT_BRANCH}"
+  "jenkins.git.commit:${GIT_COMMIT}"
   "jenkins.hostname:${HOSTNAME}"
   "jenkins.java.home:${JAVA_HOME}"
   "jenkins.job.name:${JOB_NAME}"
