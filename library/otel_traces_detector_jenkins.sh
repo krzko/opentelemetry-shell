@@ -16,17 +16,20 @@
 
 . "${OTEL_SH_LIB_PATH}/log.sh"
 
-# Github Actions
-if [ ${GITHUB_ACTIONS-} ]; then
-  . "${OTEL_SH_LIB_PATH}/otel_traces_detector_gha.sh"
-fi
+log_info "Detected, Jenkins pipeline"
 
-# Harness
-if [ ${DEPLOYMENT_ID-} ]; then
-  . "${OTEL_SH_LIB_PATH}/otel_traces_detector_harness.sh"
-fi
-
-# Jenkins
-if [ ${JENKINS_URL-} ]; then
-  . "${OTEL_SH_LIB_PATH}/otel_traces_detector_jenkins.sh"
-fi
+detector_resource_attributes=(
+  "jenkins.build.id:${BUILD_ID}"
+  "jenkins.build.number:${BUILD_NUMBER}"
+  "jenkins.build.tag:${BUILD_TAG}"
+  "jenkins.build.url:${BUILD_URL}"
+  "jenkins.executor.number:${EXECUTOR_NUMBER}"
+  "jenkins.hostname:${HOSTNAME}"
+  "jenkins.java.home:${JAVA_HOME}"
+  "jenkins.job.name:${JOB_NAME}"
+  "jenkins.job.url:${JOB_URL}"
+  "jenkins.node.name:${NODE_NAME}"
+  "jenkins.url:${JENKINS_URL}"
+  "jenkins.version:${JENKINS_VERSION}"
+  "jenkins.workspace:${WORKSPACE}"
+)
