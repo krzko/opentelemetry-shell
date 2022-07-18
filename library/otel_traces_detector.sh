@@ -22,6 +22,6 @@ if [ ${GITHUB_ACTIONS-} ]; then
 fi
 
 # Harness
-if [ ${DEPLOYMENT_ID-} ] ]; then
+if [ ${DEPLOYMENT_ID-} ]; then
   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_harness.sh"
 fi
