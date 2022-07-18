@@ -16,7 +16,12 @@
 
 . "${OTEL_SH_LIB_PATH}/log.sh"
 
+# Github Actions
 if [ ${GITHUB_ACTIONS-} ]; then
   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_gha.sh"
 fi
 
+# Harness
+if [ ${DEPLOYMENT_ID-} ] ]; then
+  . "${OTEL_SH_LIB_PATH}/otel_traces_detector_harness.sh"
+fi

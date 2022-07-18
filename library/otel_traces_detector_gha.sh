@@ -16,6 +16,8 @@
 
 . "${OTEL_SH_LIB_PATH}/log.sh"
 
+log_info "Detected, GitHub Actions workflow"
+
 detector_resource_attributes=(
   "gha.action:${GITHUB_ACTION}"
   "gha.action_repository:${GITHUB_ACTION_REPOSITORY}"
@@ -31,7 +33,3 @@ detector_resource_attributes=(
   "gha.runner.name:${RUNNER_NAME}"
   "gha.runner.os:${RUNNER_OS}"
 )
-
-log_info "Detected, GitHub Actions workflow"
-
-

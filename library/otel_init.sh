@@ -16,7 +16,7 @@
 
 set -euo pipefail
 
-if [ ! -z ${OTEL_SH_LIB_PATH-} ]; then
+if [ -z ${OTEL_SH_LIB_PATH-} ]; then
   export OTEL_SH_LIB_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 fi
 
