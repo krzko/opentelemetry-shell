@@ -21,13 +21,13 @@ if [ -z ${OTEL_SH_LIB_PATH-} ]; then
 fi
 
 . "${OTEL_SH_LIB_PATH}/log.sh"
+. "${OTEL_SH_LIB_PATH}/otel_ver.sh"
 
 export os_version=$(uname -a)
 export hostname=$(hostname)
 
 export telemetry_sdk_name="opentelemetry.sh"
 export telemetry_sdk_lang="bash"
-export telemetry_sdk_ver="0.0.1"
 
 log_info "Initialising OpenTelemetry Shell v${telemetry_sdk_ver}"
 
