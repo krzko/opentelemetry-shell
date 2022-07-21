@@ -1,0 +1,19 @@
+name: Release
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  brew-update-formula:
+    name: Update formula
+    runs-on: ubuntu-latest
+    steps:
+      - uses: NSHipster/update-homebrew-formula-action@main
+        with:
+          repository: krzko/opentelemetry-shell
+          tap: krzko/homebrew-tap
+          formula: opentelemetry-shell.rb
+        env:
+          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GORELEASER_TOKEN }}
