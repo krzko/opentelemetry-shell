@@ -5,8 +5,8 @@
 #     - go generate ./...
 
 builds:
-  - env: [CGO_ENABLED=0]
-    dir: go
+  - main: ./go
+    env: [CGO_ENABLED=0]
     goos:
       - linux
     goarch:
