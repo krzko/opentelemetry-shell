@@ -2,10 +2,10 @@ name: Release
 
 on:
   push:
-    tags:
-      - '*'
-    branches:
-      - main
+    # tags:
+    #   - '*'
+    # branches:
+    #   - main
 
 env:
   GO_VERSION: "1.18"
