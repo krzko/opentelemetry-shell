@@ -77,7 +77,7 @@ brews:
     homepage: https://github.com/krzko/opentelemetry-shell
     description: "OpenTelemetry functions for shells"
     install: |
-      system "make install"
+      system "make _banner && make install"
     test: |
       system "make version"
     dependencies:
