@@ -1,0 +1,31 @@
+# .goreleaser.yml
+checksum:
+  name_template: '{{.ProjectName}}_checksums.txt'
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
+    - Merge pull request
+    - Merge branch
+
+brews:
+  - name: opentelemetry-shell
+    tap:
+      owner: 'krzko'
+      name: 'homebrew-tap'
+    homepage: https://github.com/krzko/opentelemetry-shell
+    description: "OpenTelemetry functions for shells"
+    download_strategy: CurlDownloadStrategy
+    # install: |
+    #   bin.install "opentelemetry-shell"
+    # test: |
+    #   system "#{bin}/opentelemetry-shell -v"
+    dependencies:
+      - name: curl
+      - name: jq
