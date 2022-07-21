@@ -1,21 +1,14 @@
 # .goreleaser.yml
-# before:
-#   hooks:
-#     - go mod tidy
-#     - go generate ./...
 
-# builds:
-#   - env: [CGO_ENABLED=0]
-#     goos:
-#       - linux
-#       - windows
-#       - darwin
-#     goarch:
-#       - amd64
-#       - arm64
-#     ldflags:
-#       - -s -w -X main.version={{.Version}} -X main.commit={{.ShortCommit}} -X main.date={{.CommitDate}}
-#     mod_timestamp: '{{ .CommitTimestamp }}'
+builds:
+  - env: [CGO_ENABLED=0]
+    dir: go
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
 
 # dockers:
 #   - image_templates: ["ghcr.io/krzko/{{ .ProjectName }}:{{ .Version }}-amd64"]
@@ -57,18 +50,15 @@
 #     - ghcr.io/krzko/{{ .ProjectName }}:{{ .Version }}-arm64v8
 
 archives:
-  format: gz
-  # - name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
-  #   format_overrides:
-  #   - goos: windows
-  #     format: zip
-  #   wrap_in_directory: true
+  - files:
+    - Makefile
+    - library/*
 
-# checksum:
-#   name_template: '{{.ProjectName}}_checksums.txt'
+checksum:
+  name_template: checksums.txt
 
-# snapshot:
-#   name_template: "{{ incpatch .Version }}-next"
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
 
 changelog:
   sort: asc
