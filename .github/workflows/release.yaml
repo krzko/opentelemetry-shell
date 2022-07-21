@@ -4,16 +4,38 @@ on:
   push:
     tags:
       - '*'
+    branches:
+      - main
+
+env:
+  GO_VERSION: "1.18"
+  DOCKER_REGISTRY: "ghcr.io"
 
 jobs:
-  brew-update-formula:
-    name: Update formula
+  goreleaser:
     runs-on: ubuntu-latest
     steps:
-      - uses: NSHipster/update-homebrew-formula-action@main
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          repository: krzko/opentelemetry-shell
-          tap: krzko/homebrew-tap
-          formula: opentelemetry-shell.rb
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Login to GitHub Packages Docker Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v3
+        with:
+          version: latest
+          args: release --rm-dist
         env:
-          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GORELEASER_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GORELEASER_TOKEN }}
