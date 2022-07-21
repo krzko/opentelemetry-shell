@@ -5,7 +5,7 @@ SHELL := /bin/bash
 .SHELLFLAGS = -e
 
 name := opentelemetry-shell
-prefix ?= /usr/local
+prefix ?= ~/.local
 libdir ?= $(prefix)/lib/$(name)
 
 ##@ Install
@@ -19,9 +19,16 @@ ifeq ("$(wildcard $(libdir))", "")
 		echo "Installed. Ensure you export your variables, eg:"
 		echo "---"
 		echo 'export OTEL_EXPORTER_OTEL_ENDPOINT="http://localhost:4318"'
-		echo 'export OTEL_SH_LIB_PATH="/usr/local/lib/opentelemetry-shell/library"'
+		echo "export OTEL_SH_LIB_PATH=\"$(libdir)/library\""
 else
-	echo "$(libdir) already exist. Skipping."
+	echo "OpenTelemetry Shell exists, overwriting..."
+	rm -Rf $(libdir)
+	mkdir -p $(libdir)
+	cp -r library $(libdir)
+	echo "Installed. Ensure you export your variables, eg:"
+	echo "---"
+	echo 'export OTEL_EXPORTER_OTEL_ENDPOINT="http://localhost:4318"'
+	echo "export OTEL_SH_LIB_PATH=\"$(libdir)/library\""
 endif
 
 .PHONY: uninstall
