@@ -80,3 +80,6 @@ brews:
       system "make" "install"
     test: |
       system "make" "version"
+    dependencies:
+      - name: curl
+      - name: jq
