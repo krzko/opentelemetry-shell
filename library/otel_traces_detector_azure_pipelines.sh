@@ -15,21 +15,20 @@
 # limitations under the License.
 
 . "${OTEL_SH_LIB_PATH}/log.sh"
+. "${OTEL_SH_LIB_PATH}/strings.sh"
 
-log_info "Detected, GitHub Actions workflow"
+log_info "Detected, Azure Pipelines..."
+
+return_spaces_to_dashes "${GITHUB_REPOSITORY}" "service_name"
 
 detector_resource_attributes=(
-  "gha.action:${GITHUB_ACTION}"
-  "gha.action_repository:${GITHUB_ACTION_REPOSITORY}"
-  "gha.actor:${GITHUB_ACTOR}"
-  "gha.job:${GITHUB_JOB}"
-  "gha.ref:${GITHUB_REF}"
-  "gha.ref_name:${GITHUB_REF_NAME}"
-  "gha.github.repository:${GITHUB_REPOSITORY}"
-  "gha.github.sha:${GITHUB_SHA}"
-  "gha.workflow:${GITHUB_WORKFLOW}"
-  "gha.workspace:${GITHUB_WORKSPACE}"
-  "gha.runner.arch:${RUNNER_ARCH}"
-  "gha.runner.name:${RUNNER_NAME}"
-  "gha.runner.os:${RUNNER_OS}"
+  "azure.branch:${BUILD_SOURCEBRANCHNAME}"
+  "azure.build.id:${BUILD_BUILDID}"
+  "azure.build.number:${BUILD_BUILDNUMBER}"
+  "azure.job.name:${SYSTEM_JOBDISPLAYNAME}"
+  "azure.stage.name:${SYSTEM_STAGEDISPLAYNAME}"
+  "azure.pull.request.id:${SYSTEM_PULLREQUEST_PULLREQUESTID}"
+  "azure.pull.request.number:${SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}"
+  "azure.build.user:${BUILD_REQUESTEDFOR}"
+  "azure.repo:${BUILD_REPOSITORY_URI}"
 )

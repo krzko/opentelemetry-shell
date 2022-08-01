@@ -15,8 +15,11 @@
 # limitations under the License.
 
 . "${OTEL_SH_LIB_PATH}/log.sh"
+. "${OTEL_SH_LIB_PATH}/strings.sh"
 
-log_info "Detected, Harness"
+log_info "Detected, Harness..."
+
+return_spaces_to_dashes "${GITHUB_REPOSITORY}" "service_name"
 
 declare -t detector_resource_attributes
 

@@ -17,26 +17,15 @@
 . "${OTEL_SH_LIB_PATH}/log.sh"
 . "${OTEL_SH_LIB_PATH}/strings.sh"
 
-log_info "Detected, Jenkins..."
+log_info "Detected, Bitbucket Pipelines..."
 
 return_spaces_to_dashes "${GITHUB_REPOSITORY}" "service_name"
 
 detector_resource_attributes=(
-  "jenkins.branch.name:${BRANCH_NAME}"
-  "jenkins.build.id:${BUILD_ID}"
-  "jenkins.build.number:${BUILD_NUMBER}"
-  "jenkins.build.tag:${BUILD_TAG}"
-  "jenkins.build.url:${BUILD_URL}"
-  "jenkins.change.author:${CHANGE_AUTHOR}"
-  "jenkins.executor.number:${EXECUTOR_NUMBER}"
-  "jenkins.git.branch:${GIT_BRANCH}"
-  "jenkins.git.commit:${GIT_COMMIT}"
-  "jenkins.hostname:${HOSTNAME}"
-  "jenkins.java.home:${JAVA_HOME}"
-  "jenkins.job.name:${JOB_NAME}"
-  "jenkins.job.url:${JOB_URL}"
-  "jenkins.node.name:${NODE_NAME}"
-  "jenkins.url:${JENKINS_URL}"
-  "jenkins.version:${JENKINS_VERSION}"
-  "jenkins.workspace:${WORKSPACE}"
+  "buildkite.branch:${BITBUCKET_BRANCH}"
+  "buildkite.build.number:${BITBUCKET_BUILD_NUMBER}"
+  "buildkite.build.user:${BITBUCKET_STEP_TRIGGERER_UUID}"
+  "buildkite.pipeline.id:${BITBUCKET_PIPELINE_UUID}"
+  "buildkite.pull.request.id:${BITBUCKET_PR_ID}"
+  "buildkite.repo:${BITBUCKET_REPO_FULL_NAME}"
 )
