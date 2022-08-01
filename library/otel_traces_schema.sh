@@ -22,7 +22,7 @@ otel_trace_resource_spans=$(cat <<EOF
     {
       "resource": {
         "attributes":[
-          {"key":"service.name","value":{"stringValue":"${0##*/}"}},
+          {"key":"service.name","value":{"stringValue":"${service_name}"}},
           {"key":"service.instance.id","value":{"stringValue":"${hostname}"}},
           {"key":"service.version","value":{"stringValue":"${service_version}"}},
           {"key":"telemetry.sdk.name","value":{"stringValue":"${telemetry_sdk_name}"}},

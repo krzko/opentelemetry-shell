@@ -51,6 +51,10 @@ if [ -z "${OTEL_EXPORTER_OTEL_ENDPOINT-}" ]; then
   exit 1
 fi
 
+if [ -z "${service_name-}" ]; then
+  export service_name="${0##*/}"
+fi
+
 if [ -z "${service_version-}" ]; then
   export service_version="undefined"
 fi
