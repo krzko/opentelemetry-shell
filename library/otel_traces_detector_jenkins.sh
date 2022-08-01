@@ -19,7 +19,7 @@
 
 log_info "Detected, Jenkins..."
 
-return_spaces_to_dashes "${REPO_NAME}-pipelines" "OTEL_SERVICE_NAME"
+return_spaces_to_dashes "${JOB_NAME}-pipelines" "OTEL_SERVICE_NAME"
 
 detector_resource_attributes=(
   "jenkins.branch.name:${BRANCH_NAME}"
