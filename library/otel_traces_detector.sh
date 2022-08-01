@@ -47,9 +47,9 @@ if [ "${GITLAB_CI-}" ]; then
 fi
 
 # Google Cloud Build
-if [ "${GOOGLE-CLOUD-BUILD-}" ]; then
-  . "${OTEL_SH_LIB_PATH}/otel_traces_detector_google_cloud_build.sh"
-fi
+# if [ "${GOOGLE-CLOUD-BUILD-}" ]; then
+#   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_google_cloud_build.sh"
+# fi
 
 # TODO: Harness
 # if [ "${DEPLOYMENT_ID-}" ]; then
@@ -57,9 +57,9 @@ fi
 # fi
 
 # Jenkins
-if [ "${CI-}" ] && [ "${JENKINS_URL-}" ]; then
-  . "${OTEL_SH_LIB_PATH}/otel_traces_detector_jenkins.sh"
-fi
+# if [ "${CI-}" ] && [ "${JENKINS_URL-}" ]; then
+#   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_jenkins.sh"
+# fi
 
 # Jenkins X
 if [ "${JENKINS-X-}" ]; then
