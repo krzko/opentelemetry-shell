@@ -19,7 +19,9 @@
 
 log_info "Detected, GitHub Actions..."
 
-return_spaces_to_dashes "${GITHUB_REPOSITORY}_${GITHUB_WORKFLOW}_${GITHUB_JOB}" "OTEL_SERVICE_NAME"
+return_spaces_to_dashes "${GITHUB_REPOSITORY}_${GITHUB_WORKFLOW}" "OTEL_SERVICE_NAME"
+
+export OTEL_SERVICE_NAME="${GITHUB_REPOSITORY}_${GITHUB_WORKFLOW}"
 
 detector_resource_attributes=(
   "gha.action:${GITHUB_ACTION}"
