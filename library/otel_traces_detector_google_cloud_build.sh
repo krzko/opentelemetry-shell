@@ -19,7 +19,7 @@
 
 log_info "Detected, Google Cloud Build..."
 
-return_spaces_to_dashes "${GITHUB_REPOSITORY}" "service_name"
+return_spaces_to_dashes "${REPO_NAME}-workflows" "OTEL_SERVICE_NAME"
 
 detector_resource_attributes=(
   "cloud.build.branch:${BRANCH_NAME}"

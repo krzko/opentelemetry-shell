@@ -19,7 +19,7 @@
 
 log_info "Detected, Travis CI..."
 
-return_spaces_to_dashes "${GITHUB_REPOSITORY}" "service_name"
+return_spaces_to_dashes "${TRAVIS_REPO_SLUG}-pipelines" "OTEL_SERVICE_NAME"
 
 detector_resource_attributes=(
   "travis.branch:${TRAVIS_BRANCH}"

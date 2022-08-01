@@ -19,7 +19,7 @@
 
 log_info "Detected, Jenkins X..."
 
-return_spaces_to_dashes "${GITHUB_REPOSITORY}" "service_name"
+return_spaces_to_dashes "${REPO_NAME}-pipelines" "OTEL_SERVICE_NAME"
 
 detector_resource_attributes=(
   "jenkins.branch:${BRANCH_NAME}"

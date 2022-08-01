@@ -19,7 +19,7 @@
 
 log_info "Detected, Gitlab CI..."
 
-return_spaces_to_dashes "${GITHUB_REPOSITORY}" "service_name"
+return_spaces_to_dashes "${CI_PROJECT_URL}-pipelines" "OTEL_SERVICE_NAME"
 
 detector_resource_attributes=(
   "gitlab.ci.branch:${CI_COMMIT_REF_NAME}"

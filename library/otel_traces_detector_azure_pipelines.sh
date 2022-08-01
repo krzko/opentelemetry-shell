@@ -19,7 +19,7 @@
 
 log_info "Detected, Azure Pipelines..."
 
-return_spaces_to_dashes "${GITHUB_REPOSITORY}" "service_name"
+return_spaces_to_dashes "${BUILD_REPOSITORY_URI}-pipelines" "OTEL_SERVICE_NAME"
 
 detector_resource_attributes=(
   "azure.branch:${BUILD_SOURCEBRANCHNAME}"

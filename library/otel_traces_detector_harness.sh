@@ -19,7 +19,7 @@
 
 log_info "Detected, Harness..."
 
-return_spaces_to_dashes "${GITHUB_REPOSITORY}" "service_name"
+return_spaces_to_dashes "${REPO_NAME}-pipelines" "OTEL_SERVICE_NAME"
 
 declare -t detector_resource_attributes
 

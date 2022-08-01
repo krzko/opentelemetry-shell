@@ -19,7 +19,7 @@
 
 log_info "Detected, Bitbucket Pipelines..."
 
-return_spaces_to_dashes "${GITHUB_REPOSITORY}" "service_name"
+return_spaces_to_dashes "${BITBUCKET_REPO_FULL_NAME}-pipelines" "OTEL_SERVICE_NAME"
 
 detector_resource_attributes=(
   "buildkite.branch:${BITBUCKET_BRANCH}"
