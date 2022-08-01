@@ -52,7 +52,8 @@ if [ -z "${OTEL_EXPORTER_OTEL_ENDPOINT-}" ]; then
 fi
 
 if [ -z "${OTEL_SERVICE_NAME-}" ]; then
-  export OTEL_SERVICE_NAME="${0##*/}"
+  # export OTEL_SERVICE_NAME="${0##*/}"
+  export OTEL_SERVICE_NAME="test-service-name"
 fi
 
 if [ -z "${service_version-}" ]; then
