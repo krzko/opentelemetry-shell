@@ -29,6 +29,17 @@ export hostname=$(hostname)
 export telemetry_sdk_name="opentelemetry.sh"
 export telemetry_sdk_lang="bash"
 
+printf "\n"
+printf " _____ _____ _____ _____ _____ _____ __    _____ _____ _____ _____ _____ __ __ \n"
+printf "|     |  _  |   __|   | |_   _|   __|  |  |   __|     |   __|_   _| __  |  |  |\n"
+printf "|  |  |   __|   __| | | | | | |   __|  |__|   __| | | |   __| | | |    -|_   _|\n"
+printf "|_____|__|  |_____|_|___| |_| |_____|_____|_____|_|_|_|_____| |_| |__|__| |_|  \n"
+printf " _____ _____ _____ __    __                                                    \n"
+printf "|   __|  |  |   __|  |  |  |                                                   \n"
+printf "|__   |     |   __|  |__|  |__                                                 \n"
+printf "|_____|__|__|_____|_____|_____|                                                \n"
+printf "\n"
+
 log_info "Initialising OpenTelemetry Shell v${telemetry_sdk_ver}"
 
 # OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
