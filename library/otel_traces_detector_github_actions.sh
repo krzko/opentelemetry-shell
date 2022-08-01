@@ -19,18 +19,19 @@
 
 log_info "Detected, GitHub Actions..."
 
-return_spaces_to_dashes "${GITHUB_REPOSITORY}_${GITHUB_WORKFLOW}" "OTEL_SERVICE_NAME"
-
-export OTEL_SERVICE_NAME="${GITHUB_REPOSITORY}_${GITHUB_WORKFLOW}"
+return_spaces_to_dashes "${GITHUB_REPOSITORY}-workflows" "OTEL_SERVICE_NAME"
 
 detector_resource_attributes=(
   "github.action:${GITHUB_ACTION}"
-  "github.action_repository:${GITHUB_ACTION_REPOSITORY}"
+  "github.action.repository:${GITHUB_ACTION_REPOSITORY}"
   "github.actor:${GITHUB_ACTOR}"
+  "github.event.name:${GITHUB_EVENT_NAME}"
   "github.job:${GITHUB_JOB}"
   "github.ref:${GITHUB_REF}"
-  "github.ref_name:${GITHUB_REF_NAME}"
+  "github.ref.name:${GITHUB_REF_NAME}"
   "github.repository:${GITHUB_REPOSITORY}"
+  "github.repository.owner:${GITHUB_REPOSITORY_OWNER}"
+  "github.run.number:${GITHUB_RUN_NUMBER}"
   "github.sha:${GITHUB_SHA}"
   "github.workflow:${GITHUB_WORKFLOW}"
   "github.workspace:${GITHUB_WORKSPACE}"
