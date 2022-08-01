@@ -44,31 +44,31 @@ function otel_metrics_push_gauge {
 
   local time_unix_namo=$(get_epoch_now)
 
-	if [ ! -z ${custom_resource_attributes-} ]; then
+	if [ -n "${custom_resource_attributes-}" ]; then
     log_debug "Appending custom resource attributes"
 		for attr in "${custom_resource_attributes[@]}"; do
 			otel_metrics_add_resourcemetrics_resource_attrib_string "${attr%%:*}" "${attr#*:}"
 		done
 	fi
 
-otel_metrics_add_gauge $name \
-		$description \
-		$unit
+otel_metrics_add_gauge "$name" \
+		"$description" \
+		"$unit"
 
   if [[ ${type} == "double" ]]; then
-    otel_metrics_add_gauge_datapoint_double $key \
-      $value \
-      $as_value
+    otel_metrics_add_gauge_datapoint_double "$key" \
+      "$value" \
+      "$as_value"
   elif [[ ${type} == "int" ]]; then
-    otel_metrics_add_gauge_datapoint_int $key \
-      $value \
-      $as_value
+    otel_metrics_add_gauge_datapoint_int "$key" \
+      "$value" \
+      "$as_value"
   else
     log_error "'as_value' arg needs to be double|int"
     exit 1
   fi
 
-  if [ -z ${OTEL_LOG_LEVEL-} ]; then
+  if [ -z $"{OTEL_LOG_LEVEL-}" ]; then
     net_client_post "${otel_metrics_resource_metrics}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
 	else
     log_debug "[$( caller )] $*" >&2
@@ -106,32 +106,32 @@ function otel_metrics_push_sum {
 
   local time_unix_namo=$(get_epoch_now)
 
-  if [ $custom_resource_attributes ]; then
+  if [ "$custom_resource_attributes" ]; then
 		for attr in "${custom_resource_attributes[@]}"; do
 			otel_metrics_add_resourcemetrics_resource_attrib_string "${attr%%:*}" "${attr#*:}"
 		done
 	fi
 
-otel_metrics_add_gauge $name \
-		$description \
-		$unit
+otel_metrics_add_gauge "$name" \
+		"$description" \
+		"$unit"
 
   if [[ ${type} == "double" ]]; then
-    otel_metrics_add_sum_datapoint_double $key \
-      $value \
-      $as_value \
-      $start_time_unix_nano
+    otel_metrics_add_sum_datapoint_double "$key" \
+      "$value" \
+      "$as_value" \
+      "$start_time_unix_nano"
   elif [[ ${type} == "int" ]]; then
-    otel_metrics_add_sum_datapoint_int $key \
-      $value \
-      $as_value \
-      $start_time_unix_nano
+    otel_metrics_add_sum_datapoint_int "$key" \
+      "$value" \
+      "$as_value" \
+      "$start_time_unix_nano"
   else
     log_error "'as_value' arg needs to be double|int"
     exit 1
   fi
 
-  if [ -z ${OTEL_LOG_LEVEL-} ]; then
+  if [ -z "${OTEL_LOG_LEVEL-}" ]; then
     net_client_post "${otel_metrics_resource_metrics}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/metrics"
 	else
     log_debug "[$( caller )] $*" >&2

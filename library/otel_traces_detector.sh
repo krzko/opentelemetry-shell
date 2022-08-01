@@ -17,56 +17,56 @@
 . "${OTEL_SH_LIB_PATH}/log.sh"
 
 # Azure Pipelines
-if [ ${TF_BUILD-} ]; then
+if [ "${TF_BUILD-}" ]; then
   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_azure_pipelines.sh"
 fi
 
 # Bitbucket Pipelines
-if [ ${BITBUCKET_BUILD_NUMBER-} ]; then
+if [ "${BITBUCKET_BUILD_NUMBER-}" ]; then
   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_bitbucket_pipelines.sh"
 fi
 
 # Buildkite
-if [ ${BUILDKITE-} ]; then
+if [ "${BUILDKITE-}" ]; then
   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_buildkite.sh"
 fi
 
 # Circle CI
-if [ ${CIRCLECI-} ]; then
+if [ "${CIRCLECI-}" ]; then
   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_circle_ci.sh"
 fi
 
 # Github Actions
-if [ ${GITHUB_ACTIONS-} ]; then
+if [ "${GITHUB_ACTIONS-}" ]; then
   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_github_actions.sh"
 fi
 
 # Gitlab CI
-if [ ${GITLAB_CI-} ]; then
+if [ "${GITLAB_CI-}" ]; then
   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_gitlab_ci.sh"
 fi
 
-# Gitlab CI
-if [ ${GOOGLE-CLOUD-BUILD-} ]; then
+# Google Cloud Build
+if [ "${GOOGLE-CLOUD-BUILD-}" ]; then
   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_google_cloud_build.sh"
 fi
 
 # TODO: Harness
-# if [ ${DEPLOYMENT_ID-} ]; then
+# if [ "${DEPLOYMENT_ID-}" ]; then
 #   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_harness.sh"
 # fi
 
 # Jenkins
-if [ ${CI-} ] && [ ${JENKINS_URL-} ]; then
+if [ "${CI-}" ] && [ "${JENKINS_URL-}" ]; then
   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_jenkins.sh"
 fi
 
 # Jenkins X
-if [ ${JENKINS-X-} ]; then
+if [ "${JENKINS-X-}" ]; then
   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_jenkins_x.sh"
 fi
 
 # Travis CI
-if [ ${TRAVIS-} ]; then
+if [ "${TRAVIS-}" ]; then
   . "${OTEL_SH_LIB_PATH}/otel_traces_detector_travis_ci.sh"
 fi

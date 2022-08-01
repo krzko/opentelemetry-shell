@@ -62,7 +62,7 @@ otel_metrics_add_resourcemetrics_resource_attrib_string() {
 EOF
 )
 
-  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].resource.attributes += [$attribute]" <<< $otel_metrics_resource_metrics)
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].resource.attributes += [$attribute]" <<< "$otel_metrics_resource_metrics")
 }
 
 #######################################
@@ -85,7 +85,7 @@ otel_metrics_add_resourcemetrics_resource_attrib_int() {
 EOF
 )
 
-  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].resource.attributes += [$attribute]" <<< $otel_metrics_resource_metrics)
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].resource.attributes += [$attribute]" <<< "$otel_metrics_resource_metrics")
 }
 
 #######################################
@@ -115,7 +115,7 @@ otel_metrics_add_gauge() {
 EOF
 )
 
-  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[-1].metrics += [$obj]" <<< $otel_metrics_resource_metrics)
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[-1].metrics += [$obj]" <<< "$otel_metrics_resource_metrics")
 
 }
 
@@ -151,7 +151,7 @@ otel_metrics_add_gauge_datapoint_int() {
 EOF
 )
 
-  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].gauge.dataPoints += [$obj]" <<< $otel_metrics_resource_metrics)
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].gauge.dataPoints += [$obj]" <<< "$otel_metrics_resource_metrics")
 
 }
 
@@ -187,7 +187,7 @@ otel_metrics_add_gauge_datapoint_double() {
 EOF
 )
 
-  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].gauge.dataPoints += [$obj]" <<< $otel_metrics_resource_metrics)
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].gauge.dataPoints += [$obj]" <<< "$otel_metrics_resource_metrics")
 
 }
 
@@ -220,7 +220,7 @@ otel_metrics_add_sum() {
 EOF
 )
 
-  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[-1].metrics += [$obj]" <<< $otel_metrics_resource_metrics)
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[-1].metrics += [$obj]" <<< "$otel_metrics_resource_metrics")
 
 }
 
@@ -250,11 +250,11 @@ otel_metrics_add_sum_datapoint_double() {
 EOF
 )
 
-  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.dataPoints += [$obj]" <<< $otel_metrics_resource_metrics)
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.dataPoints += [$obj]" <<< "$otel_metrics_resource_metrics")
 
 
-  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.aggregationTemporality = \"AGGREGATION_TEMPORALITY_CUMULATIVE\"" <<< $otel_metrics_resource_metrics)
-  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.isMonotonic = true" <<< $otel_metrics_resource_metrics)
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.aggregationTemporality = \"AGGREGATION_TEMPORALITY_CUMULATIVE\"" <<< "$otel_metrics_resource_metrics")
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.isMonotonic = true" <<< "$otel_metrics_resource_metrics")
 
 }
 
@@ -284,9 +284,9 @@ otel_metrics_add_sum_datapoint_int() {
 EOF
 )
 
-  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.dataPoints += [$obj]" <<< $otel_metrics_resource_metrics)
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.dataPoints += [$obj]" <<< "$otel_metrics_resource_metrics")
 
 
-  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.aggregationTemporality = \"AGGREGATION_TEMPORALITY_CUMULATIVE\"" <<< $otel_metrics_resource_metrics)
-  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.isMonotonic = true" <<< $otel_metrics_resource_metrics)
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.aggregationTemporality = \"AGGREGATION_TEMPORALITY_CUMULATIVE\"" <<< "$otel_metrics_resource_metrics")
+  otel_metrics_resource_metrics=$(jq -r ".resourceMetrics[].instrumentationLibraryMetrics[].metrics[-1].sum.isMonotonic = true" <<< "$otel_metrics_resource_metrics")
 }

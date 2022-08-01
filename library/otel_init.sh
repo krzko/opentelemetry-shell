@@ -16,7 +16,7 @@
 
 set -euo pipefail
 
-if [ -z ${OTEL_SH_LIB_PATH-} ]; then
+if [ -z "${OTEL_SH_LIB_PATH-}" ]; then
   export OTEL_SH_LIB_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 fi
 
@@ -46,11 +46,11 @@ log_info "Initialising OpenTelemetry Shell v${telemetry_sdk_ver}"
 # OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
 # OTEL_EXPORTER_OTLP_LOGS_ENDPOINT
 
-if [ -z ${OTEL_EXPORTER_OTEL_ENDPOINT-} ]; then
+if [ -z "${OTEL_EXPORTER_OTEL_ENDPOINT-}" ]; then
   log_error "OTEL_EXPORTER_OTEL_ENDPOINT not exported"
   exit 1
 fi
 
-if [ -z ${service_version-} ]; then
+if [ -z "${service_version-}" ]; then
   export service_version="undefined"
 fi
