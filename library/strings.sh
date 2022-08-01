@@ -16,6 +16,14 @@
 
 . "${OTEL_SH_LIB_PATH}/log.sh"
 
+#######################################
+# Returns a formatted strings and assigns back to variable
+# ARGUMENTS:
+#   str, the string
+#   var, the vveriable to return to
+# OUTPUTS:
+#   Return to argument var
+#######################################
 return_spaces_to_dashes() {
     local str="$1"
     local var="$2"
