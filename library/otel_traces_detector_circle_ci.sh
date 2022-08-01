@@ -14,14 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export telemetry_sdk_ver="0.0.8"
+. "${OTEL_SH_LIB_PATH}/log.sh"
+. "${OTEL_SH_LIB_PATH}/strings.sh"
 
-#######################################
-# Returns a version of the SDK
-# OUTPUTS:
-#   Write to stdout
-#######################################
-otel_sh_ver() {
-  printf "OpenTelemetry Shell v%s\n" $telemetry_sdk_ver
-}
+log_info "Detected, Circle CI..."
 
+return_spaces_to_dashes "${CIRCLE_REPOSITORY_URL}-pipelines" "OTEL_SERVICE_NAME"
+
+detector_resource_attributes=(
+  "circle.ci.branch:${CIRCLE_BRANCH}"
+  "circle.ci.build.number:${CIRCLE_BUILD_NUM}"
+  "circle.ci.build.url:${CIRCLE_BUILD_URL}"
+  "circle.ci.job.name:${CIRCLE_JOB}"
+  "circle.ci.pull.request.number:${CIRCLE_PR_NUMBER}"
+  "circle.ci.pull.request.user:${CIRCLE_PR_USER}"
+  "circle.ci.pull.request.repo:${CIRCLE_PR_REPONAME}"
+  "circle.ci.repo:${CIRCLE_REPOSITORY_URL}"
+)

@@ -22,7 +22,7 @@ otel_trace_resource_spans=$(cat <<EOF
     {
       "resource": {
         "attributes":[
-          {"key":"service.name","value":{"stringValue":"${0##*/}"}},
+          {"key":"service.name","value":{"stringValue":"${OTEL_SERVICE_NAME}"}},
           {"key":"service.instance.id","value":{"stringValue":"${hostname}"}},
           {"key":"service.version","value":{"stringValue":"${service_version}"}},
           {"key":"telemetry.sdk.name","value":{"stringValue":"${telemetry_sdk_name}"}},
@@ -60,7 +60,7 @@ otel_trace_add_resourcespan_resource_attrib_string() {
 EOF
 )
 
-  otel_trace_resource_spans=$(jq -r ".resourceSpans[].resource.attributes += [$attribute]" <<< $otel_trace_resource_spans)
+  otel_trace_resource_spans=$(jq -r ".resourceSpans[].resource.attributes += [$attribute]" <<< "$otel_trace_resource_spans")
 }
 
 #######################################
@@ -83,7 +83,7 @@ otel_trace_add_int_resource_attrib() {
 EOF
 )
 
-  otel_trace_resource_spans=$(jq -r ".resourceSpans[].resource.attributes += [$attribute]" <<< $otel_trace_resource_spans)
+  otel_trace_resource_spans=$(jq -r ".resourceSpans[].resource.attributes += [$attribute]" <<< "$otel_trace_resource_spans")
 }
 
 #######################################
@@ -107,7 +107,7 @@ otel_trace_add_resource_scopespans_span() {
   local end_time_unix_nano=$6
 	local status_code=$7
 
-	if [ $status_code -eq 0 ]; then
+	if [ "$status_code" -eq 0 ]; then
 		status_code="STATUS_CODE_OK"
 	else
 		status_code="STATUS_CODE_ERROR"
@@ -130,7 +130,7 @@ otel_trace_add_resource_scopespans_span() {
 EOF
 )
 
-  otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[-1].spans += [$span]" <<< $otel_trace_resource_spans)
+  otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[-1].spans += [$span]" <<< "$otel_trace_resource_spans")
 
 	parent_span_id=$span_id
 }
@@ -153,5 +153,5 @@ otel_trace_add_resourcespan_scopespans_spans_attrib_string() {
 EOF
 )
 
-  otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[].spans[-1].attributes += [$attribute]" <<< $otel_trace_resource_spans)
+  otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[].spans[-1].attributes += [$attribute]" <<< "$otel_trace_resource_spans")
 }

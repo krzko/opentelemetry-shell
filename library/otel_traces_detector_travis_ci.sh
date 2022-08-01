@@ -14,14 +14,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export telemetry_sdk_ver="0.0.8"
+. "${OTEL_SH_LIB_PATH}/log.sh"
+. "${OTEL_SH_LIB_PATH}/strings.sh"
 
-#######################################
-# Returns a version of the SDK
-# OUTPUTS:
-#   Write to stdout
-#######################################
-otel_sh_ver() {
-  printf "OpenTelemetry Shell v%s\n" $telemetry_sdk_ver
-}
+log_info "Detected, Travis CI..."
 
+return_spaces_to_dashes "${TRAVIS_REPO_SLUG}-pipelines" "OTEL_SERVICE_NAME"
+
+detector_resource_attributes=(
+  "travis.branch:${TRAVIS_BRANCH}"
+  "travis.build.number:${BUILD_NUMBER}"
+  "travis.build.url:${TRAVIS_BUILD_WEB_URL}"
+  "travis.pull.request:${TRAVIS_PULL_REQUEST}"
+  "travis.pull.request.branch:${TRAVIS_PULL_REQUEST_BRANCH}"
+  "travis.pull.request.repo:${TRAVIS_PULL_REQUEST_SLUG}"
+  "travis.repo:${TRAVIS_REPO_SLUG}"
+)

@@ -15,8 +15,11 @@
 # limitations under the License.
 
 . "${OTEL_SH_LIB_PATH}/log.sh"
+. "${OTEL_SH_LIB_PATH}/strings.sh"
 
-log_info "Detected, Jenkins pipeline"
+log_info "Detected, Jenkins..."
+
+return_spaces_to_dashes "${REPO_NAME}-pipelines" "OTEL_SERVICE_NAME"
 
 detector_resource_attributes=(
   "jenkins.branch.name:${BRANCH_NAME}"

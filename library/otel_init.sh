@@ -16,7 +16,7 @@
 
 set -euo pipefail
 
-if [ -z ${OTEL_SH_LIB_PATH-} ]; then
+if [ -z "${OTEL_SH_LIB_PATH-}" ]; then
   export OTEL_SH_LIB_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 fi
 
@@ -29,17 +29,32 @@ export hostname=$(hostname)
 export telemetry_sdk_name="opentelemetry.sh"
 export telemetry_sdk_lang="bash"
 
+printf "\n"
+printf " _____ _____ _____ _____ _____ _____ __    _____ _____ _____ _____ _____ __ __ \n"
+printf "|     |  _  |   __|   | |_   _|   __|  |  |   __|     |   __|_   _| __  |  |  |\n"
+printf "|  |  |   __|   __| | | | | | |   __|  |__|   __| | | |   __| | | |    -|_   _|\n"
+printf "|_____|__|  |_____|_|___| |_| |_____|_____|_____|_|_|_|_____| |_| |__|__| |_|  \n"
+printf " _____ _____ _____ __    __                                                    \n"
+printf "|   __|  |  |   __|  |  |  |                                                   \n"
+printf "|__   |     |   __|  |__|  |__                                                 \n"
+printf "|_____|__|__|_____|_____|_____|                                                \n"
+printf "\n"
+
 log_info "Initialising OpenTelemetry Shell v${telemetry_sdk_ver}"
 
 # OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
 # OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
 # OTEL_EXPORTER_OTLP_LOGS_ENDPOINT
 
-if [ -z ${OTEL_EXPORTER_OTEL_ENDPOINT-} ]; then
+if [ -z "${OTEL_EXPORTER_OTEL_ENDPOINT-}" ]; then
   log_error "OTEL_EXPORTER_OTEL_ENDPOINT not exported"
   exit 1
 fi
 
-if [ -z ${service_version-} ]; then
+if [ -z "${OTEL_SERVICE_NAME-}" ]; then
+  export OTEL_SERVICE_NAME="${0##*/}"
+fi
+
+if [ -z "${service_version-}" ]; then
   export service_version="undefined"
 fi

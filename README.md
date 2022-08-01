@@ -1,5 +1,16 @@
 # opentelemetry-shell
 
+```sh
+ _____ _____ _____ _____ _____ _____ __    _____ _____ _____ _____ _____ __ __
+|     |  _  |   __|   | |_   _|   __|  |  |   __|     |   __|_   _| __  |  |  |
+|  |  |   __|   __| | | | | | |   __|  |__|   __| | | |   __| | | |    -|_   _|
+|_____|__|  |_____|_|___| |_| |_____|_____|_____|_|_|_|_____| |_| |__|__| |_|
+ _____ _____ _____ __    __
+|   __|  |  |   __|  |  |  |
+|__   |     |   __|  |__|  |__
+|_____|__|__|_____|_____|_____|
+```
+
 **Logs**, **metrics**, and **traces** are often known as the three pillars of observability. We take great care to ensure we cover these pillars in our services.
 
 But, underpinning these services is usually a script. `Bash` has been around for many decades now and other shells for even longer. This is usually the glue that ensures we can manage, deploy and perform many tasks around the services that we develop.
@@ -12,7 +23,7 @@ The functions utilise the [OpenTelemetry Protocol Specification (OTLP)](https://
 
 These functions have been tested on several `bash` versions, the list is as follows:
 
-- `3.x`
+- `3.x`, although looking to deprecate support for this soon (tm)
 - `4.x`
 - `5.x`
 
@@ -55,7 +66,23 @@ Tracing is supported with a rudimentary, parent/child relationship. The followin
 - Script name
 - Line number
 - Ability to add user specified resource attributes
-- Detectors, supports Github Actions workflows
+
+#### Resource Detectors
+
+The resource detectors can be used to detect resource information from the host, in a format that conforms to the OpenTelemetry resource semantic conventions, and append or override the resource value in telemetry data with this information. Currently the following detectors are supported:
+
+- [X] Azure Pipelines
+- [X] Bitbucket Pipelines
+- [X] Buildkite
+- [X] Circle CI
+- [ ] Codefresh
+- [X] Github Actions
+- [X] Gitlab CI
+- [ ] Google Cloud Build
+- [ ] Harness
+- [X] Jenkins
+- [ ] Jenkins X
+- [X] Travis CI
 
 ## Examples
 
@@ -142,7 +169,7 @@ The following environment variables will be currently used:
 **[General SDK Configuration](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/sdk-environment-variables.md#general-sdk-configuration)**
 
 <!-- - `OTEL_RESOURCE_ATTRIBUTES` - Key-value pairs to be used as resource attributes -->
-<!-- - `OTEL_SERVICE_NAME`: Sets the value of the `service.name` resource attribute -->
+- `OTEL_SERVICE_NAME`: Sets the value of the `service.name` resource attribute
 - `OTEL_LOG_LEVEL`: Log level used by the logger, `debug`. Unset variable to disable verbose logging
 
 **[Exporter Selection](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/sdk-environment-variables.md#exporter-selection)**

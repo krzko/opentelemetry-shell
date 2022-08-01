@@ -14,14 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export telemetry_sdk_ver="0.0.8"
+. "${OTEL_SH_LIB_PATH}/log.sh"
 
 #######################################
-# Returns a version of the SDK
+# Returns a formatted strings and assigns back to variable
+# ARGUMENTS:
+#   str, the string
+#   var, the vveriable to return to
 # OUTPUTS:
-#   Write to stdout
+#   Return to argument var
 #######################################
-otel_sh_ver() {
-  printf "OpenTelemetry Shell v%s\n" $telemetry_sdk_ver
-}
+return_spaces_to_dashes() {
+    local str="$1"
+    local var="$2"
 
+    str=${str// /_}
+
+    eval "$var=\$str"
+}

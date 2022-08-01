@@ -25,7 +25,7 @@
 #######################################
 generate_uuid()
 {
-    local length=$1
+    # local length=$1
 
     local N B C='89ab'
 

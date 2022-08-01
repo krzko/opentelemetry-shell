@@ -15,21 +15,16 @@
 # limitations under the License.
 
 . "${OTEL_SH_LIB_PATH}/log.sh"
+. "${OTEL_SH_LIB_PATH}/strings.sh"
 
-log_info "Detected, GitHub Actions workflow"
+log_info "Detected, Google Cloud Build..."
+
+return_spaces_to_dashes "${REPO_NAME}-workflows" "OTEL_SERVICE_NAME"
 
 detector_resource_attributes=(
-  "gha.action:${GITHUB_ACTION}"
-  "gha.action_repository:${GITHUB_ACTION_REPOSITORY}"
-  "gha.actor:${GITHUB_ACTOR}"
-  "gha.job:${GITHUB_JOB}"
-  "gha.ref:${GITHUB_REF}"
-  "gha.ref_name:${GITHUB_REF_NAME}"
-  "gha.github.repository:${GITHUB_REPOSITORY}"
-  "gha.github.sha:${GITHUB_SHA}"
-  "gha.workflow:${GITHUB_WORKFLOW}"
-  "gha.workspace:${GITHUB_WORKSPACE}"
-  "gha.runner.arch:${RUNNER_ARCH}"
-  "gha.runner.name:${RUNNER_NAME}"
-  "gha.runner.os:${RUNNER_OS}"
+  "cloud.build.branch:${BRANCH_NAME}"
+  "cloud.build.build.number:${BUILD_ID}"
+  "cloud.build.pull.request.branch:${HEAD_BRANCH}"
+  "cloud.build.repo:${REPO_NAME}"
+  "cloud.build.repo.owner:${REPO_OWNER}"
 )

@@ -14,14 +14,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export telemetry_sdk_ver="0.0.8"
+. "${OTEL_SH_LIB_PATH}/log.sh"
+. "${OTEL_SH_LIB_PATH}/strings.sh"
 
-#######################################
-# Returns a version of the SDK
-# OUTPUTS:
-#   Write to stdout
-#######################################
-otel_sh_ver() {
-  printf "OpenTelemetry Shell v%s\n" $telemetry_sdk_ver
-}
+log_info "Detected, Gitlab CI..."
 
+return_spaces_to_dashes "${CI_PROJECT_URL}-pipelines" "OTEL_SERVICE_NAME"
+
+detector_resource_attributes=(
+  "gitlab.ci.branch:${CI_COMMIT_REF_NAME}"
+  "gitlab.ci.build.number:${CI_PIPELINE_ID}"
+  "gitlab.ci.build.url:${CI_PIPELINE_URL}"
+  "gitlab.ci.pull.request.branch:${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}"
+  "gitlab.ci.pull.request.number:${CI_MERGE_REQUEST_ID}"
+  "gitlab.ci.pull.request.repo:${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH}"
+  "gitlab.ci.repo:${CI_PROJECT_URL}"
+)

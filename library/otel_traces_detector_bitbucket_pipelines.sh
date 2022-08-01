@@ -14,14 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export telemetry_sdk_ver="0.0.8"
+. "${OTEL_SH_LIB_PATH}/log.sh"
+. "${OTEL_SH_LIB_PATH}/strings.sh"
 
-#######################################
-# Returns a version of the SDK
-# OUTPUTS:
-#   Write to stdout
-#######################################
-otel_sh_ver() {
-  printf "OpenTelemetry Shell v%s\n" $telemetry_sdk_ver
-}
+log_info "Detected, Bitbucket Pipelines..."
 
+return_spaces_to_dashes "${BITBUCKET_REPO_FULL_NAME}-pipelines" "OTEL_SERVICE_NAME"
+
+detector_resource_attributes=(
+  "buildkite.branch:${BITBUCKET_BRANCH}"
+  "buildkite.build.number:${BITBUCKET_BUILD_NUMBER}"
+  "buildkite.build.user:${BITBUCKET_STEP_TRIGGERER_UUID}"
+  "buildkite.pipeline.id:${BITBUCKET_PIPELINE_UUID}"
+  "buildkite.pull.request.id:${BITBUCKET_PR_ID}"
+  "buildkite.repo:${BITBUCKET_REPO_FULL_NAME}"
+)

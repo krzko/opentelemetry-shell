@@ -14,14 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export telemetry_sdk_ver="0.0.8"
+. "${OTEL_SH_LIB_PATH}/log.sh"
+. "${OTEL_SH_LIB_PATH}/strings.sh"
 
-#######################################
-# Returns a version of the SDK
-# OUTPUTS:
-#   Write to stdout
-#######################################
-otel_sh_ver() {
-  printf "OpenTelemetry Shell v%s\n" $telemetry_sdk_ver
-}
+log_info "Detected, Jenkins X..."
 
+return_spaces_to_dashes "${REPO_NAME}-pipelines" "OTEL_SERVICE_NAME"
+
+detector_resource_attributes=(
+  "jenkins.branch:${BRANCH_NAME}"
+  "jenkins.build.number:${BUILD_NUMBER}"
+  "jenkins.pull.request.number:${PULL_NUMBER}"
+  "jenkins.repo:${REPO_NAME}"
+)
