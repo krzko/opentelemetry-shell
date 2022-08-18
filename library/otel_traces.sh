@@ -143,7 +143,7 @@ otel_trace_start_child_span() {
 		done
 	fi
 
-	otel_trace_add_resource_scopespans_span" $name" \
+	otel_trace_add_resource_scopespans_span "$name" \
 		"$OTEL_TRACE_ID" \
 		"$span_id" \
 		"$PARENT_SPAN_ID" \

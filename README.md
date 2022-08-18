@@ -21,11 +21,7 @@ The functions utilise the [OpenTelemetry Protocol Specification (OTLP)](https://
 
 ## Requirements
 
-These functions have been tested on several `bash` versions, the list is as follows:
-
-- `3.x`, although looking to deprecate support for this soon (tm)
-- `4.x`
-- `5.x`
+These functions have been tested on several `bash` versions, the list is as follows, `3.x`, although looking to deprecate support for this soon (tm), `4.x` an `5.x`.
 
 Other versions and shells, your mileage may vary.
 
@@ -181,4 +177,4 @@ The following environment variables will be currently used:
 
 **OpenTelemetry Shell Specific**
 
-- `OTEL_SH_TRACE_ID`: Set a pre-defined `traceId`. Defaut behaviour is the functions will create this value for you automatically
+- `OTEL_SH_TRACE_ID`: Set a pre-defined `traceId`. Default behaviour is the functions will create this value for you automatically
