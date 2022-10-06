@@ -19,7 +19,7 @@
 
 log_info "Detected, Gitlab CI..."
 
-if [ -z "${OTEL_SERVICE_NAME-}" }; then
+if [ -z "${OTEL_SERVICE_NAME-}" ]; then
     return_spaces_to_dashes "${CI_PROJECT_URL}-pipelines" "OTEL_SERVICE_NAME"
 fi
 
