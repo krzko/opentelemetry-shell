@@ -71,7 +71,7 @@ otel_trace_start_parent_span() {
 	otel_trace_add_resource_scopespans_span "$name" \
 		"$OTEL_TRACE_ID" \
 		"$span_id" \
-		"" \
+		'' \
 		"$start_time_unix_nano" \
 		"$end_time_unix_nano" \
 		"$exit_code"

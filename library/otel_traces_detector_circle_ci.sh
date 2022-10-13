@@ -19,7 +19,9 @@
 
 log_info "Detected, Circle CI..."
 
-return_spaces_to_dashes "${CIRCLE_REPOSITORY_URL}-pipelines" "OTEL_SERVICE_NAME"
+if [ -z "${OTEL_SERVICE_NAME-}" ]; then
+  return_spaces_to_dashes "${CIRCLE_REPOSITORY_URL}" "OTEL_SERVICE_NAME"
+fi
 
 detector_resource_attributes=(
   "circle.ci.branch:${CIRCLE_BRANCH}"

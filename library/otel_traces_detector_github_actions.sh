@@ -19,7 +19,9 @@
 
 log_info "Detected, GitHub Actions..."
 
-return_spaces_to_dashes "${GITHUB_REPOSITORY}" "OTEL_SERVICE_NAME"
+if [ -z "${OTEL_SERVICE_NAME-}" ]; then
+  return_spaces_to_dashes "${GITHUB_REPOSITORY}" "OTEL_SERVICE_NAME"
+fi
 
 detector_resource_attributes=(
   "github.action:${GITHUB_ACTION}"

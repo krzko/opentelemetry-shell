@@ -19,7 +19,9 @@
 
 log_info "Detected, Jenkins X..."
 
-return_spaces_to_dashes "${REPO_NAME}-pipelines" "OTEL_SERVICE_NAME"
+if [ -z "${OTEL_SERVICE_NAME-}" ]; then
+  return_spaces_to_dashes "${REPO_NAME}" "OTEL_SERVICE_NAME"
+fi
 
 detector_resource_attributes=(
   "jenkins.branch:${BRANCH_NAME}"

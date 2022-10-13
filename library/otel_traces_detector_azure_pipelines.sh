@@ -19,7 +19,9 @@
 
 log_info "Detected, Azure Pipelines..."
 
-return_spaces_to_dashes "${BUILD_REPOSITORY_URI}-pipelines" "OTEL_SERVICE_NAME"
+if [ -z "${OTEL_SERVICE_NAME-}" ]; then
+  return_spaces_to_dashes "${BUILD_REPOSITORY_URI}" "OTEL_SERVICE_NAME"
+fi
 
 detector_resource_attributes=(
   "azure.branch:${BUILD_SOURCEBRANCHNAME}"
