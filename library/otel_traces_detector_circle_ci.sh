@@ -19,7 +19,7 @@
 
 log_info "Detected, Circle CI..."
 
-if [ -z "${OTEL_SERVICE_NAME-}" ]; then
+if [ "$OTEL_SERVICE_NAME" == "unknown_service" ]; then
   return_spaces_to_dashes "${CIRCLE_REPOSITORY_URL}" "OTEL_SERVICE_NAME"
 fi
 

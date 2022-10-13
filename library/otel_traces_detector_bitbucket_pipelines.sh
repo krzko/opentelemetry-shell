@@ -19,7 +19,7 @@
 
 log_info "Detected, Bitbucket Pipelines..."
 
-if [ -z "${OTEL_SERVICE_NAME-}" ]; then
+if [ "$OTEL_SERVICE_NAME" == "unknown_service" ]; then
   return_spaces_to_dashes "${BITBUCKET_REPO_FULL_NAME}" "OTEL_SERVICE_NAME"
 fi
 

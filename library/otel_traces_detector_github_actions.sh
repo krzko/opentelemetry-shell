@@ -19,7 +19,7 @@
 
 log_info "Detected, GitHub Actions..."
 
-if [ -z "${OTEL_SERVICE_NAME-}" ]; then
+if [ "$OTEL_SERVICE_NAME" == "unknown_service" ]; then
   return_spaces_to_dashes "${GITHUB_REPOSITORY}" "OTEL_SERVICE_NAME"
 fi
 

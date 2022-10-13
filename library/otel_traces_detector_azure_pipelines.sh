@@ -19,7 +19,7 @@
 
 log_info "Detected, Azure Pipelines..."
 
-if [ -z "${OTEL_SERVICE_NAME-}" ]; then
+if [ "$OTEL_SERVICE_NAME" == "unknown_service" ]; then
   return_spaces_to_dashes "${BUILD_REPOSITORY_URI}" "OTEL_SERVICE_NAME"
 fi
 

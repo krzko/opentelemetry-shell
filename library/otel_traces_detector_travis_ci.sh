@@ -19,7 +19,7 @@
 
 log_info "Detected, Travis CI..."
 
-if [ -z "${OTEL_SERVICE_NAME-}" ]; then
+if [ "$OTEL_SERVICE_NAME" == "unknown_service" ]; then
   return_spaces_to_dashes "${TRAVIS_REPO_SLUG}" "OTEL_SERVICE_NAME"
 fi
 
