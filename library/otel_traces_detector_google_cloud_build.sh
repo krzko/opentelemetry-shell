@@ -19,7 +19,9 @@
 
 log_info "Detected, Google Cloud Build..."
 
-return_spaces_to_dashes "${REPO_NAME}-workflows" "OTEL_SERVICE_NAME"
+if [ "$OTEL_SERVICE_NAME" == "unknown_service" ]; then
+  return_spaces_to_dashes "${REPO_NAME}" "OTEL_SERVICE_NAME"
+fi
 
 detector_resource_attributes=(
   "cloud.build.branch:${BRANCH_NAME}"

@@ -19,7 +19,9 @@
 
 log_info "Detected, Bitbucket Pipelines..."
 
-return_spaces_to_dashes "${BITBUCKET_REPO_FULL_NAME}-pipelines" "OTEL_SERVICE_NAME"
+if [ "$OTEL_SERVICE_NAME" == "unknown_service" ]; then
+  return_spaces_to_dashes "${BITBUCKET_REPO_FULL_NAME}" "OTEL_SERVICE_NAME"
+fi
 
 detector_resource_attributes=(
   "buildkite.branch:${BITBUCKET_BRANCH}"

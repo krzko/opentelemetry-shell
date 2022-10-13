@@ -19,8 +19,8 @@
 
 log_info "Detected, Gitlab CI..."
 
-if [ -z "${OTEL_SERVICE_NAME-}" ]; then
-    return_spaces_to_dashes "${CI_PROJECT_URL}-pipelines" "OTEL_SERVICE_NAME"
+if [ "$OTEL_SERVICE_NAME" == "unknown_service" ]; then
+  return_spaces_to_dashes "${CI_PROJECT_URL}" "OTEL_SERVICE_NAME"
 fi
 
 if [ -n "${detector_resource_attributes-}" ]; then

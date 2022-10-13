@@ -19,7 +19,9 @@
 
 log_info "Detected, GitHub Actions..."
 
-return_spaces_to_dashes "${GITHUB_REPOSITORY}-workflows" "OTEL_SERVICE_NAME"
+if [ "$OTEL_SERVICE_NAME" == "unknown_service" ]; then
+  return_spaces_to_dashes "${GITHUB_REPOSITORY}" "OTEL_SERVICE_NAME"
+fi
 
 detector_resource_attributes=(
   "github.action:${GITHUB_ACTION}"

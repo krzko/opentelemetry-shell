@@ -19,7 +19,9 @@
 
 log_info "Detected, Travis CI..."
 
-return_spaces_to_dashes "${TRAVIS_REPO_SLUG}-pipelines" "OTEL_SERVICE_NAME"
+if [ "$OTEL_SERVICE_NAME" == "unknown_service" ]; then
+  return_spaces_to_dashes "${TRAVIS_REPO_SLUG}" "OTEL_SERVICE_NAME"
+fi
 
 detector_resource_attributes=(
   "travis.branch:${TRAVIS_BRANCH}"

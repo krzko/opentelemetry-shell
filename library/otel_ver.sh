@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export telemetry_sdk_ver="0.0.8"
+export telemetry_sdk_ver="0.0.9"
 
 #######################################
 # Returns a version of the SDK
