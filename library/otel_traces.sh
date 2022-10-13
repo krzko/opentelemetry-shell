@@ -78,9 +78,11 @@ otel_trace_start_parent_span() {
 
   otel_trace_add_resourcespan_scopespans_spans_attrib_string "command" "$*"
   otel_trace_add_resourcespan_scopespans_spans_attrib_string "errorlevel" "${exit_code}"
-  otel_trace_add_resourcespan_scopespans_spans_attrib_string "function" "${FUNCNAME[1]}()"
-
   otel_trace_add_resourcespan_scopespans_spans_attrib_string "code.url" "${PWD}/${0##*/}#L${BASH_LINENO[0]}"
+
+  if [ -z "${FUNCNAME-}" ]; then
+		otel_trace_add_resourcespan_scopespans_spans_attrib_string "function" "${FUNCNAME[1]}()"
+	fi
 
   if [ -z "${OTEL_LOG_LEVEL-}" ]; then
 		log_debug "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
@@ -154,6 +156,10 @@ otel_trace_start_child_span() {
   otel_trace_add_resourcespan_scopespans_spans_attrib_string "command" "$*"
   otel_trace_add_resourcespan_scopespans_spans_attrib_string "errorlevel" "${exit_code}"
   otel_trace_add_resourcespan_scopespans_spans_attrib_string "function" "${FUNCNAME[1]}()"
+
+  if [ -z "${FUNCNAME-}" ]; then
+		otel_trace_add_resourcespan_scopespans_spans_attrib_string "function" "${FUNCNAME[1]}()"
+	fi
 
   otel_trace_add_resourcespan_scopespans_spans_attrib_string "code.url" "${PWD}/${0##*/}#L${BASH_LINENO[0]}"
 
