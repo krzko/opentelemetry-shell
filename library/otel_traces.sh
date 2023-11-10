@@ -84,6 +84,14 @@ otel_trace_start_parent_span() {
 		otel_trace_add_resourcespan_scopespans_spans_attrib_string "function" "${FUNCNAME[1]}()"
 	fi
 
+  if [ -n "${linked_span-}" ]; then
+    local linkedTraceId=${linked_span[0]}
+    local linkedTraceState=${linked_span[1]}
+    local linkedSpanId=${linked_span[2]}
+    log_debug "linkedTraceId: $linkedTraceId, linkedTraceState: $linkedTraceState, linkedSpanId: $linkedSpanId"
+    otel_trace_add_resourcespan_scopespans_spans_link $linkedTraceId $linkedTraceState $linkedSpanId
+  fi
+
   if [ -z "${OTEL_LOG_LEVEL-}" ]; then
 		log_debug "curling ${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
     net_client_post "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
@@ -162,6 +170,14 @@ otel_trace_start_child_span() {
 	fi
 
   otel_trace_add_resourcespan_scopespans_spans_attrib_string "code.url" "${PWD}/${0##*/}#L${BASH_LINENO[0]}"
+
+  if [ -n "${linked_span-}" ]; then
+    local linkedTraceId=${linked_span[0]}
+    local linkedTraceState=${linked_span[1]}
+    local linkedSpanId=${linked_span[2]}
+    log_debug "linkedTraceId: $linkedTraceId, linkedTraceState: $linkedTraceState, linkedSpanId: $linkedSpanId"
+    otel_trace_add_resourcespan_scopespans_spans_link $linkedTraceId $linkedTraceState $linkedSpanId
+  fi
 
   if [ -z "${OTEL_LOG_LEVEL-}" ]; then
     net_client_post "${otel_trace_resource_spans}" "${OTEL_EXPORTER_OTEL_ENDPOINT}/v1/traces"
