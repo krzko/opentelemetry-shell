@@ -155,3 +155,24 @@ EOF
 
   otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[].spans[-1].attributes += [$attribute]" <<< "$otel_trace_resource_spans")
 }
+
+otel_trace_add_resourcespan_scopespans_spans_link() {
+  local trace_id="${1}"
+  local span_id="${2}"
+  local trace_state=""
+
+  if [ -n "${3-}" ]; then
+    trace_state="${3}"
+  fi
+
+  local link=$(cat <<EOF
+{
+  "trace_id": "$trace_id",
+  "span_id": "$span_id",
+  "trace_state": "$trace_state",
+}
+EOF
+)
+
+  otel_trace_resource_spans=$(jq -r ".resourceSpans[].scopeSpans[].spans[-1].links += [$link]" <<< "$otel_trace_resource_spans")
+}

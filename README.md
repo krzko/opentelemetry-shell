@@ -142,10 +142,15 @@ sleep_for() {
 
 # Start a parent span
 otel_trace_start_parent_span sleep_for 1
+
 # Start a child span, associated to the parent
 otel_trace_start_child_span sleep_for 2
 # Start a child span with a custom name
 local span_name="Sleeping"
+otel_trace_start_child_span sleep_for 3
+
+# Add a SpanLink
+local linked_span=("$linkedTraceId" "$linkedSpanId" "$linkedTraceState")
 otel_trace_start_child_span sleep_for 3
 
 log_info "TraceId: ${OTEL_TRACE_ID}"
