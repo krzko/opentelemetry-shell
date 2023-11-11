@@ -47,6 +47,10 @@ otel_trace_start_parent_span() {
 	local name=$1
 	local span_id=$(generate_uuid 8)
 
+	if [ -n "${span_name-}" ]; then
+	  name=$span_name
+  fi
+
 	local start_time_unix_nano=$(get_epoch_now)
   local exit_code=0
 	"$@" && exit_code=$? || exit_code=$?
@@ -123,6 +127,10 @@ otel_trace_start_parent_span() {
 otel_trace_start_child_span() {
 	local name=$1
 	local span_id=$(generate_uuid 8)
+
+	if [ -n "${span_name-}" ]; then
+    name=$span_name
+  fi
 
 	local start_time_unix_nano=$(get_epoch_now)
   local exit_code=0

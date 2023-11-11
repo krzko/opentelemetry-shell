@@ -144,6 +144,9 @@ sleep_for() {
 otel_trace_start_parent_span sleep_for 1
 # Start a child span, associated to the parent
 otel_trace_start_child_span sleep_for 2
+# Start a child span with a custom name
+local span_name="Sleeping"
+otel_trace_start_child_span sleep_for 3
 
 log_info "TraceId: ${OTEL_TRACE_ID}"
 ```
